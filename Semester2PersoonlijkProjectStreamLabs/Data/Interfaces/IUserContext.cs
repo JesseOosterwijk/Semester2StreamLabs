@@ -1,10 +1,12 @@
-﻿using System;
+﻿using Models;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Data.Interfaces
 {
-    class IUserContext
+    public interface IUserContext
     {
+        void CreateUser(User user);
     }
 }

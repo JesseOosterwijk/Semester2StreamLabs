@@ -12,4 +12,11 @@
     <PackageReference Include="MSTest.TestFramework" Version="1.3.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Data\Data.csproj" />
+    <ProjectReference Include="..\Logic\Logic.csproj" />
+    <ProjectReference Include="..\Models\Models.csproj" />
+    <ProjectReference Include="..\Semester2PersoonlijkProjectStreamLabs\Semester2PersoonlijkProjectStreamLabs.csproj" />
+  </ItemGroup>
+
 </Project>
