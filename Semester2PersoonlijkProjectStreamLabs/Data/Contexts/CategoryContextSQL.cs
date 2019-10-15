@@ -32,12 +32,78 @@ namespace Data.Contexts
                     Category category = new Category(categoryId, categoryName, categoryDescription);
                     categoryList.Add(category);
                 }
-
                 return categoryList;
             }
             catch (Exception)
             {
                 return null;
+            }
+            finally
+            {
+                _conn.Close();
+            }
+        }
+
+        public void AddNewCategory(Category newCategory)
+        {
+            try
+            {
+                _conn.Open();
+                using (SqlCommand cmd = new SqlCommand("AddNewCategory", _conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Name", SqlDbType.NVarChar).Value = newCategory.Name;
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                _conn.Close();
+            }
+        }
+
+        public void EditCategory(Category category)
+        {
+            try
+            {
+                _conn.Open();
+                using (SqlCommand cmd = new SqlCommand("EditCategory", _conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add("@CategoryName", SqlDbType.NVarChar).Value = category.Name;
+                    cmd.Parameters.Add("@Description", SqlDbType.NVarChar).Value = category.Description;
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            catch (Exception)
+            {
+                throw new ArgumentException("Category not edited");
+            }
+            finally
+            {
+                _conn.Close();
+            }
+        }
+
+        public void DeleteCategory(Category category)
+        {
+            try
+            {
+                _conn.Open();
+                using (SqlCommand cmd = new SqlCommand("DeleteCategory", _conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add("@CategoryId", SqlDbType.Int).Value = category.CategoryId;
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            catch (Exception)
+            {
+                throw new ArgumentException("Category not deleted");
             }
             finally
             {

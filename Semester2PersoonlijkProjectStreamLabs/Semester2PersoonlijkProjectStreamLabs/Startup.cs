@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Data.Contexts;
+using Data.Interfaces;
+using Logic;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -33,6 +37,28 @@ namespace Semester2PersoonlijkProjectStreamLabs
 
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+                {
+                    options.AccessDeniedPath = "/Home/ErrorForbidden";
+                    options.LoginPath = "/Home/ErrorNotLoggedIn";
+                });
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("Admin", p => p.RequireAuthenticatedUser().RequireRole("Admin"));
+                options.AddPolicy("Viewer", p => p.RequireAuthenticatedUser().RequireRole("Viewer"));
+            });
+
+            services.AddSingleton<ICategoryContext, CategoryContextSQL>();
+            services.AddSingleton<ICommentContext, CommentContextSQL>();
+            services.AddSingleton<IUserContext, UserContextSQL>();
+            services.AddSingleton<IVideoContext, VideoContextSQL>();
+
+            services.AddSingleton<CategoryLogic>();
+            services.AddSingleton<CommentLogic>();
+            services.AddSingleton<UserLogic>();
+            services.AddSingleton<VideoLogic>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -52,11 +78,20 @@ namespace Semester2PersoonlijkProjectStreamLabs
             app.UseStaticFiles();
             app.UseCookiePolicy();
 
+            app.UseAuthentication();
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
+            });
+
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                    name: "Viewer",
+                    template: "{controller=Viewer}/{action=Index}/{id?}");
             });
         }
     }

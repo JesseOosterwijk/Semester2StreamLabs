@@ -4,11 +4,11 @@ using System.Text;
 
 namespace Models
 {
-    public class Chat
+    public class Comment
     {
         public string Content { get; }
 
-        public Chat(string content)
+        public Comment(string content)
         {
             Content = content;
         }

@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Semester2PersoonlijkProjectStreamLabs.Controllers
 {
-    public class StreamController : Controller
+    public class VideoController : Controller
     {
         public IActionResult Index()
         {
