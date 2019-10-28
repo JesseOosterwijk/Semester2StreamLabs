@@ -16,6 +16,8 @@ namespace Logic
 
         public void CreateUser(User newUser)
         {
+            newUser.Password = Hasher.SecurePasswordHasher.Hash(newUser.Password);
+
             _user.CreateUser(newUser);
         }
 

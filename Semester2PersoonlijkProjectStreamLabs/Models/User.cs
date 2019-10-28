@@ -20,36 +20,37 @@ namespace Models
         public bool Status { get; set; }
         public string Password { get; set; }
 
-        public User(string firstName, string lastName, string userName, string address, string city, string postalCode, string emailAddress, DateTime birthDate, Gender userGender, bool status, AccountType accountType, string password)
-        {
-            FirstName = firstName;
-            LastName = lastName;
-            UserName = userName;
-            Address = address;
-            City = city;
-            PostalCode = postalCode;
-            EmailAddress = emailAddress;
-            BirthDate = birthDate;
-            UserGender = userGender;
-            Status = status;
-            UserAccountType = accountType;
-            Password = password;
-        }
-
-        public User(int userId, string firstName, string lastName, string address, string city, string postalCode, string emailAddress, DateTime birthDate, Gender userGender, bool status, AccountType accountType, string password)
+        protected User(int userId, AccountType accountType, string userName, string firstName, string lastName, DateTime birthDate, Gender gender, string email, string address, string city, string postalCode, string password, bool status)
         {
             UserId = userId;
+            UserAccountType = accountType;
+            UserName = userName;
             FirstName = firstName;
             LastName = lastName;
+            BirthDate = birthDate;
+            UserGender = gender;
+            EmailAddress = email;
             Address = address;
             City = city;
             PostalCode = postalCode;
-            EmailAddress = emailAddress;
-            BirthDate = birthDate;
-            UserGender = userGender;
-            Status = status;
-            UserAccountType = accountType;
             Password = password;
+            Status = status;
+        }
+
+        protected User(AccountType accountType, string userName, string firstName, string lastName, DateTime birthDate, Gender gender, string email, string address, string city, string postalCode, string password, bool status)
+        {
+            UserAccountType = accountType;
+            UserName = userName;
+            FirstName = firstName;
+            LastName = lastName;
+            BirthDate = birthDate;
+            UserGender = gender;
+            EmailAddress = email;
+            Address = address;
+            City = city;
+            PostalCode = postalCode;
+            Password = password;
+            Status = status;
         }
 
         protected User(int userId, string userName, string firstName, string lastName, AccountType accountType, DateTime birthDate, Gender gender, string email, string address, string postalCode, string city, bool status)

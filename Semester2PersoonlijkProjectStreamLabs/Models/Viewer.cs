@@ -10,8 +10,14 @@ namespace Models
         {
         }
 
-        public Viewer(int userId, string firstName, string lastName, string address, string city, string postalCode, string emailAddress, DateTime dateBirth, Gender userGender, bool status, AccountType accountType, string password) : base(userId, firstName, lastName, address, city, postalCode, emailAddress, dateBirth, userGender, status, accountType, password)
+        public Viewer(int userId, AccountType accountType, string userName, string firstName, string lastName, DateTime birthDate, Gender gender, string email, string address, string city, string postalCode, string password, bool status) : base(userId, accountType, userName, firstName, lastName, birthDate, gender, email, address, city, postalCode, password, status)
         {
+
+        }
+
+        public Viewer(AccountType accountType, string userName, string firstName, string lastName, DateTime birthDate, Gender gender, string email, string address, string city, string postalCode, string password, bool status) : base(accountType, userName, firstName, lastName, birthDate, gender, email, address, city, postalCode, password, status)
+        {
+
         }
     }
 }

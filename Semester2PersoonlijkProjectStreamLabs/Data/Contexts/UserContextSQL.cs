@@ -29,10 +29,10 @@ namespace Data.Contexts
                     cmd.Parameters.AddWithValue("@Address", SqlDbType.NVarChar).Value = newUser.Address;
                     cmd.Parameters.AddWithValue("@BirthDate", SqlDbType.DateTime).Value = newUser.BirthDate;
                     cmd.Parameters.AddWithValue("@City", SqlDbType.NVarChar).Value = newUser.City;
-                    cmd.Parameters.AddWithValue("@Gender", SqlDbType.Bit).Value = newUser.UserGender;
+                    cmd.Parameters.AddWithValue("@Sex", SqlDbType.Bit).Value = newUser.UserGender;
                     cmd.Parameters.AddWithValue("@Password", SqlDbType.NVarChar).Value = newUser.Password;
                     cmd.Parameters.AddWithValue("@PostalCode", SqlDbType.NChar).Value = newUser.PostalCode;
-                    cmd.Parameters.AddWithValue("@AccountType", SqlDbType.NVarChar).Value = newUser.UserAccountType;
+                    cmd.Parameters.AddWithValue("@AccountType", SqlDbType.NVarChar).Value = newUser.UserAccountType.ToString();
                     cmd.Parameters.AddWithValue("@Status", SqlDbType.Bit).Value = true;
                     cmd.ExecuteNonQuery();
                 }
@@ -130,7 +130,7 @@ namespace Data.Contexts
                     string postalCode = dr["PostalCode"].ToString();
                     string city = dr["City"].ToString();
                     bool status = Convert.ToBoolean(dr["Status"].ToString());
-                    if(accountType == "Admin")
+                    if (accountType == "Admin")
                     {
                         User user = new Admin(userId, userName, firstName, lastName, User.AccountType.Admin, birthDate, gender, email, address, postalCode, city, status);
                         allUsers.Add(user);
@@ -276,7 +276,7 @@ namespace Data.Contexts
             try
             {
                 string query =
-                    "SELECT UserID, AccountType, FirstName, LastName, Birthdate, Sex, Email, Address, PostalCode, City, Status, Password " +
+                    "SELECT UserID, AccountType, UserName, FirstName, LastName, Birthdate, Sex, Email, Address, City, PostalCode, Password, Status " +
                     "FROM [User] " +
                     "WHERE Email = @email";
 
@@ -285,10 +285,11 @@ namespace Data.Contexts
                 {
                     ParameterName = "@email"
                 };
+
                 SqlCommand cmd = new SqlCommand(query, _conn);
                 emailParam.Value = email;
                 cmd.Parameters.Add(emailParam);
-                User currentUser = new User(1, "a", "b", "c,", "d", "e", "f", Convert.ToDateTime("1988/12/20"), User.Gender.Male, true, User.AccountType.Viewer, "");
+                User currentUser = new Viewer(1, User.AccountType.Viewer, "", "", "", DateTime.Now, User.Gender.Male, "", "", "", "", "", false);
                 using (SqlDataReader reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
@@ -299,13 +300,15 @@ namespace Data.Contexts
 
                         if (accountType == "Admin")
                         {
-                            currentUser = new User(reader.GetInt32(0), reader.GetString(2), reader.GetString(3), reader.GetString(7), reader.GetString(9), reader.GetString(8), email,
-                                reader.GetDateTime(4), gender, reader.GetBoolean(10), User.AccountType.Admin, reader.GetString(11));
+                            currentUser = new Admin(reader.GetInt32(0), User.AccountType.Admin, reader.GetString(2), reader.GetString(3), 
+                                reader.GetString(4), reader.GetDateTime(5), gender, reader.GetString(7), reader.GetString(8), reader.GetString(9), 
+                                reader.GetString(10), reader.GetString(11), reader.GetBoolean(12));
                         }
                         else if (accountType == "Viewer")
                         {
-                            currentUser = new User(reader.GetInt32(0), reader.GetString(2), reader.GetString(3), reader.GetString(7), reader.GetString(9), reader.GetString(8), email,
-                                reader.GetDateTime(4), gender, reader.GetBoolean(10), User.AccountType.Viewer, reader.GetString(11));
+                            currentUser = new Viewer(reader.GetInt32(0), User.AccountType.Admin, reader.GetString(2), reader.GetString(3), 
+                                reader.GetString(4), reader.GetDateTime(5), gender, reader.GetString(7), reader.GetString(8), reader.GetString(9), 
+                                reader.GetString(10), reader.GetString(11), reader.GetBoolean(12));
                         }
 
                         return currentUser;
@@ -328,7 +331,7 @@ namespace Data.Contexts
             try
             {
                 string query =
-                    "SELECT AccountType, FirstName, LastName, Birthdate, Sex, Email, Address, PostalCode, City, Status, Password " +
+                    "SELECT AccountType, UserName, FirstName, LastName, Birthdate, Sex, Email, Address, PostalCode, City, Status, Password " +
                     "FROM [User] " +
                     "WHERE [UserID] = @UserId";
                 _conn.Open();
@@ -344,27 +347,28 @@ namespace Data.Contexts
                 cmd.Fill(dt);
 
                 string accountType = dt.Rows[0].ItemArray[0].ToString();
-                string firstName = dt.Rows[0].ItemArray[1].ToString();
-                string lastName = dt.Rows[0].ItemArray[2].ToString();
-                DateTime birthDate = Convert.ToDateTime(dt.Rows[0].ItemArray[3].ToString());
-                User.Gender gender = (User.Gender)Enum.Parse(typeof(User.Gender), dt.Rows[0].ItemArray[4].ToString());
-                string email = dt.Rows[0].ItemArray[5].ToString();
-                string address = dt.Rows[0].ItemArray[6].ToString();
-                string postalCode = dt.Rows[0].ItemArray[7].ToString();
-                string city = dt.Rows[0].ItemArray[8].ToString();
-                bool status = Convert.ToBoolean(dt.Rows[0].ItemArray[9].ToString());
-                string password = dt.Rows[0].ItemArray[10].ToString();
+                string userName = dt.Rows[0].ItemArray[1].ToString();
+                string firstName = dt.Rows[0].ItemArray[2].ToString();
+                string lastName = dt.Rows[0].ItemArray[3].ToString();
+                DateTime birthDate = Convert.ToDateTime(dt.Rows[0].ItemArray[4].ToString());
+                User.Gender gender = (User.Gender)Enum.Parse(typeof(User.Gender), dt.Rows[0].ItemArray[5].ToString());
+                string email = dt.Rows[0].ItemArray[6].ToString();
+                string address = dt.Rows[0].ItemArray[7].ToString();
+                string postalCode = dt.Rows[0].ItemArray[8].ToString();
+                string city = dt.Rows[0].ItemArray[9].ToString();
+                bool status = Convert.ToBoolean(dt.Rows[0].ItemArray[10].ToString());
+                string password = dt.Rows[0].ItemArray[11].ToString();
 
                 if (accountType == "Admin")
                 {
-                    return new User(userId, firstName, lastName, address, city, postalCode, email,
-                        birthDate, gender, status, User.AccountType.Admin, password);
+                    return new Admin(userId, User.AccountType.Admin, userName, firstName, lastName, birthDate, gender, email, address, city, postalCode,
+                        password, status);
                 }
 
                 else if (accountType == "Viewer")
                 {
-                    return new User(userId, firstName, lastName, address, city, postalCode, email,
-                        birthDate, gender, status, User.AccountType.Viewer, password);
+                    return new Viewer(userId, User.AccountType.Viewer, userName, firstName, lastName, birthDate, gender, email, address, city, postalCode,
+                        password, status);
                 }
                 return null;
             }
@@ -384,7 +388,7 @@ namespace Data.Contexts
             try
             {
                 string query =
-                    "SELECT UserID, AccountType, FirstName, LastName, Birthdate, Sex, Address, PostalCode, City, Status, Password " +
+                    "SELECT UserID, AccountType, UserName, FirstName, LastName, Birthdate, Sex, Address, PostalCode, City, Status, Password " +
                     "FROM [User] " +
                     "WHERE [Email] = @Email";
                 _conn.Open();
@@ -402,15 +406,16 @@ namespace Data.Contexts
 
                 int userId = Convert.ToInt32(dt.Rows[0].ItemArray[0]);
                 string accountType = dt.Rows[0].ItemArray[1].ToString();
-                string firstName = dt.Rows[0].ItemArray[2].ToString();
-                string lastName = dt.Rows[0].ItemArray[3].ToString();
-                DateTime birthDate = Convert.ToDateTime(dt.Rows[0].ItemArray[4]);
-                User.Gender gender = (User.Gender)Enum.Parse(typeof(User.Gender), dt.Rows[0].ItemArray[5].ToString());
-                string address = dt.Rows[0].ItemArray[6].ToString();
-                string postalCode = dt.Rows[0].ItemArray[7].ToString();
-                string city = dt.Rows[0].ItemArray[8].ToString();
-                bool status = Convert.ToBoolean(dt.Rows[0].ItemArray[9]);
-                string hashedPassword = dt.Rows[0].ItemArray[10].ToString();
+                string userName = dt.Rows[0].ItemArray[2].ToString();
+                string firstName = dt.Rows[0].ItemArray[3].ToString();
+                string lastName = dt.Rows[0].ItemArray[4].ToString();
+                DateTime birthDate = Convert.ToDateTime(dt.Rows[0].ItemArray[5]);
+                User.Gender gender = (User.Gender)Enum.Parse(typeof(User.Gender), dt.Rows[0].ItemArray[6].ToString());
+                string address = dt.Rows[0].ItemArray[7].ToString();
+                string postalCode = dt.Rows[0].ItemArray[8].ToString();
+                string city = dt.Rows[0].ItemArray[9].ToString();
+                bool status = Convert.ToBoolean(dt.Rows[0].ItemArray[10]);
+                string hashedPassword = dt.Rows[0].ItemArray[11].ToString();
 
 
                 if (!Hasher.SecurePasswordHasher.Verify(password, hashedPassword))
@@ -419,11 +424,11 @@ namespace Data.Contexts
                 switch (accountType)
                 {
                     case "Admin":
-                        return new Admin(userId, firstName, lastName, address, city, postalCode, emailAdress,
-                            birthDate, gender, status, User.AccountType.Admin, hashedPassword);
+                        return new Admin(userId, User.AccountType.Admin, userName, firstName, lastName, birthDate, gender, emailAdress, address, city, postalCode,
+                        hashedPassword, status);
                     case "Viewer":
-                        return new Viewer(userId, firstName, lastName, address, city, postalCode, emailAdress,
-                            birthDate, gender, status, User.AccountType.Viewer, hashedPassword);
+                        return new Viewer(userId, User.AccountType.Viewer, userName, firstName, lastName, birthDate, gender, emailAdress, address, city, postalCode,
+                        hashedPassword, status);
                     default:
                         throw new AggregateException("User not found");
                 }

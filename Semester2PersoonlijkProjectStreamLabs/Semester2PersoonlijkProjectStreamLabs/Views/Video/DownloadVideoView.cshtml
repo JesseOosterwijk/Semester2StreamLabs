@@ -1,0 +1,54 @@
+﻿@model Semester2PersoonlijkProjectStreamLabs.Models.VideoViewModel
+
+@{
+    ViewData["Title"] = "DownloadVideoView";
+}
+
+<h2>DownloadVideoView</h2>
+
+<div>
+    <h4>VideoViewModel</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.VideoId)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.VideoId)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DateOfUpload)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DateOfUpload)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.VideoLength)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.VideoLength)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Views)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Views)
+        </dd>
+    </dl>
+</div>
+<div>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    <a asp-action="Index">Back to List</a>
+</div>

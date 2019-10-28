@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Models;
+using ProftaakASP_S2.Models;
 using Semester2PersoonlijkProjectStreamLabs.Models;
 
 namespace Semester2PersoonlijkProjectStreamLabs.Controllers
@@ -88,6 +89,76 @@ namespace Semester2PersoonlijkProjectStreamLabs.Controllers
                 ViewBag.Message = "Wachtwoord verkeerd ingevuld";
                 return View();
             }
+        }
+
+        public IActionResult Logout()
+        {
+            HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
+            return RedirectToAction(nameof(Login));
+        }
+
+        [HttpGet]
+        public ActionResult CreateAccount()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult CreateAccount(UserViewModel userViewModel, string password, string passwordValidation)
+        {
+            try
+            {
+                if (password == passwordValidation)
+                {
+                    if (_userLogic.CheckIfUserAlreadyExists(userViewModel.EmailAddress))
+                    {
+                        if (_userLogic.CheckIfEmailIsValid(userViewModel.EmailAddress))
+                        {
+                            switch (userViewModel.UserAccountType)
+                            {
+                                case global::Models.User.AccountType.Viewer:
+                                    _userLogic.CreateUser(new Viewer(global::Models.User.AccountType.Viewer, userViewModel.UserName, userViewModel.FirstName, userViewModel.LastName,
+                                        Convert.ToDateTime(userViewModel.BirthDate), (User.Gender)Enum.Parse(typeof(User.Gender), userViewModel.UserGender), userViewModel.EmailAddress, userViewModel.Address, userViewModel.City,
+                                        userViewModel.PostalCode, password, true));
+                                    break;
+                                case global::Models.User.AccountType.Admin:
+                                    _userLogic.CreateUser(new Admin(global::Models.User.AccountType.Viewer, userViewModel.UserName, userViewModel.FirstName, userViewModel.LastName,
+                                        Convert.ToDateTime(userViewModel.BirthDate), (User.Gender)Enum.Parse(typeof(User.Gender), userViewModel.UserGender), userViewModel.EmailAddress, userViewModel.Address, userViewModel.City,
+                                        userViewModel.PostalCode, password, true));
+                                    break;
+                                default:
+                                    _userLogic.CreateUser(
+                                        new Viewer(global::Models.User.AccountType.Viewer, userViewModel.UserName, userViewModel.FirstName, userViewModel.LastName,
+                                        Convert.ToDateTime(userViewModel.BirthDate), (User.Gender)Enum.Parse(typeof(User.Gender), userViewModel.UserGender), userViewModel.EmailAddress, userViewModel.Address, userViewModel.City,
+                                        userViewModel.PostalCode, password, true));
+                                    break;
+                            }
+                        }
+                        else
+                        {
+                            ViewBag.Message = "Foutieve email ingevoerd";
+                            return View();
+                        }
+                    }
+                    else
+                    {
+                        ViewBag.Message = "Er bestaat al een account met deze e-mail";
+                        return View();
+                    }
+                }
+                else
+                {
+                    ViewBag.Message = "De wachtwoorden komen niet overheen";
+                    return View();
+                }
+            }
+            catch (Exception)
+            {
+                ViewBag.Message = "De gebruiker is niet aangemaakt";
+                return View();
+            }
+            return RedirectToAction("Login");
         }
     }
 }
