@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Data.Contexts;
+﻿using Data.Contexts;
 using Data.Interfaces;
 using Logic;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -50,15 +45,15 @@ namespace Semester2PersoonlijkProjectStreamLabs
                 options.AddPolicy("Viewer", p => p.RequireAuthenticatedUser().RequireRole("Viewer"));
             });
 
-            services.AddSingleton<ICategoryContext, CategoryContextSQL>();
-            services.AddSingleton<ICommentContext, CommentContextSQL>();
-            services.AddSingleton<IUserContext, UserContextSQL>();
-            services.AddSingleton<IVideoContext, VideoContextSQL>();
+            services.AddScoped<ICategoryContext, CategoryContextSQL>();
+            services.AddScoped<ICommentContext, CommentContextSQL>();
+            services.AddScoped<IUserContext, UserContextSQL>();
+            services.AddScoped<IVideoContext, VideoContextSQL>();
 
-            services.AddSingleton<CategoryLogic>();
-            services.AddSingleton<CommentLogic>();
-            services.AddSingleton<UserLogic>();
-            services.AddSingleton<VideoLogic>();
+            services.AddScoped<CategoryLogic>();
+            services.AddScoped<CommentLogic>();
+            services.AddScoped<UserLogic>();
+            services.AddScoped<VideoLogic>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

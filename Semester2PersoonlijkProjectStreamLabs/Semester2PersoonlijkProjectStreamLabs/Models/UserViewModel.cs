@@ -7,6 +7,7 @@ namespace ProftaakASP_S2.Models
     {
         public enum AccountType { CareRecipient, Volunteer, Professional, Admin }
         public enum Gender { Man, Vrouw, Anders }
+
         public int UserId { get; set; }
         public string UserName { get; set; }
         public string FirstName { get; set; }

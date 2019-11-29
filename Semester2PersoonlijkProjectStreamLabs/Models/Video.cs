@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Models
 {
@@ -38,6 +36,11 @@ namespace Models
             DateOfUpload = dateOfUpload;
             VideoLength = videoLength;
             Views = views;
+        }
+
+        public Video(string name)
+        {
+            Name = name;
         }
     }
 }

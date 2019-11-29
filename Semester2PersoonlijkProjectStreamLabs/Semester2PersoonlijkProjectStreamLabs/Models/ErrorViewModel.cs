@@ -1,5 +1,3 @@
-using System;
-
 namespace Semester2PersoonlijkProjectStreamLabs.Models
 {
     public class ErrorViewModel

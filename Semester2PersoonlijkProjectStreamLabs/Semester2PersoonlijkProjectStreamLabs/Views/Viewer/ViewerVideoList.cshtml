@@ -1,0 +1,36 @@
+﻿@model IEnumerable<Semester2PersoonlijkProjectStreamLabs.Models.VideoViewModel>
+
+@{
+    ViewData["Title"] = "ViewerVideoList";
+}
+
+<h2>Overzicht Videos gebruiker</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>
+                VideoName
+            </th>
+            <th>
+                VideoLink
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (Semester2PersoonlijkProjectStreamLabs.Models.VideoViewModel item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name);
+            </td>
+            <td>
+                @Html.ActionLink("Show Video", "GetVideo", item)
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>

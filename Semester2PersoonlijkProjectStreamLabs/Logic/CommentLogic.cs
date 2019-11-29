@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Data.Interfaces;
-using Models;
+﻿using Data.Interfaces;
 
 namespace Logic
 {

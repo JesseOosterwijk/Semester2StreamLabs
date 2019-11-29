@@ -1,7 +1,4 @@
 ﻿using Data.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Logic
 {
@@ -27,6 +24,11 @@ namespace Logic
         public void RestrictVideo()
         {
             _video.RestrictVideo();
+        }
+
+        public string[] GetAllVideos(string userName)
+        {
+            return _video.GetAllVideos(userName);
         }
     }
 }

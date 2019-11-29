@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
-using System.Threading.Tasks;
 using Logic;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -69,7 +66,7 @@ namespace Semester2PersoonlijkProjectStreamLabs.Controllers
                     case global::Models.User.AccountType.Admin:
                         return RedirectToAction("Index", "Admin");
                     case global::Models.User.AccountType.Viewer:
-                        return RedirectToAction("Index", "Viewer");
+                        return RedirectToAction("UploadVideo", "Video");
                     default:
                         return RedirectToAction("Overview", "Viewer");
                 }
@@ -160,5 +157,6 @@ namespace Semester2PersoonlijkProjectStreamLabs.Controllers
             }
             return RedirectToAction("Login");
         }
+
     }
 }

@@ -1,8 +1,5 @@
 ﻿using Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Semester2PersoonlijkProjectStreamLabs.Models
 {
@@ -25,6 +22,12 @@ namespace Semester2PersoonlijkProjectStreamLabs.Models
             DateOfUpload = video.DateOfUpload;
             VideoLength = video.VideoLength;
             Views = video.Views;
+        }
+
+        public VideoViewModel(string name, string description)
+        {
+            Name = name;
+            Description = description;
         }
 
         public VideoViewModel()

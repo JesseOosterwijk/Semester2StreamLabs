@@ -124,7 +124,7 @@ namespace Data.Contexts
                     string firstName = dr["FirstName"].ToString();
                     string lastName = dr["LastName"].ToString();
                     DateTime birthDate = (DateTime)dr["BirthDate"];
-                    User.Gender gender = (User.Gender)Enum.Parse(typeof(User.Gender), dr["Gender"].ToString());
+                    User.Gender gender = (User.Gender)Enum.Parse(typeof(User.Gender), dr["Sex"].ToString());
                     string email = dr["Email"].ToString();
                     string address = dr["Address"].ToString();
                     string postalCode = dr["PostalCode"].ToString();
