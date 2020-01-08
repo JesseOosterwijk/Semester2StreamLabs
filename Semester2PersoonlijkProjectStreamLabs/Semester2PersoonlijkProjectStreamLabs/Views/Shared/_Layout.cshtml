@@ -17,30 +17,37 @@
     </environment>
 </head>
 <body>
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">StreamLabs</a>
+    <div class="container-fluid">
+        <nav class="navbar navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="/Home/Index">StreamLabs</a>
+                </div>
+                <div class="collapse navbar-collapse" id="navbar-collapse-1">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            @if (User.IsInRole("Viewer"))
+                            {
+                                <li><a asp-area="" asp-controller="Viewer" asp-action="UserOverview">Gebruikers</a></li>
+                                <li><a asp-area="" asp-controller="Video" asp-action="UploadVideo">Upload Video</a></li>
+                                <li><a asp-area="" asp-controller="User" asp-action="SettingsMenu">Settings</a></li>
+                                <li><a asp-area="" asp-controller="User" asp-action="Logout">Logout</a></li>
+                            }
+                        }
+                        else
+                        {
+                            <li><a asp-area="" asp-controller="User" asp-action="Login">Login</a></li>
+                            <li><a asp-area="" asp-controller="User" asp-action="CreateAccount">CreateAccount</a></li>
+                        }
+                    </ul>
+                </div>
             </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                    <li><a asp-area="" asp-controller="User" asp-action="Login">Login</a></li>
-                    <li><a asp-area="" asp-controller="User" asp-action="CreateAccount">CreateAccount</a></li>
-                    <li><a asp-area="" asp-controller="Viewer" asp-action="UserOverview">Gebruikers</a></li>
-                    <li><a asp-area="" asp-controller="Video" asp-action="UploadVideo">Upload Video</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-
+        </nav>
+    </div>
     <partial name="_CookieConsentPartial" />
+    @RenderSection("Image", required: false)
 
     <div class="container body-content">
         @RenderBody()

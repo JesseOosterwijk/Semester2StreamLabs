@@ -7,7 +7,6 @@ namespace Data.Interfaces
     {
         void CreateUser(User user);
         void EditUser(User user);
-        void DeleteUser(User user);
         List<User> GetAllUsers();
         void BanUser(int userId);
         bool CheckIfUserAlreadyExists(string email);
@@ -16,5 +15,6 @@ namespace Data.Interfaces
         User GetUserById(int userId);
         bool CheckIfEmailIsValid(string userEmail);
         User CheckValidityUser(string emailAddress, string password);
+        bool SendEmail(string emailaddress, string newPassword);
     }
 }

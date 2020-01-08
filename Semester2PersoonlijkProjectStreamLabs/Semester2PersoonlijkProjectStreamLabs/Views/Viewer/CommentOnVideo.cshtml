@@ -1,0 +1,25 @@
+﻿@model Semester2PersoonlijkProjectStreamLabs.Models.CommentViewModel
+
+<h4>Comment</h4>
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="CommentOnVideo">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Content" class="control-label">Write your comment here:</label>
+                <input asp-for="Content" class="form-control" />
+                <span asp-validation-for="Content" class="text-danger"></span>
+            </div>
+            <input type="hidden" asp-for="VideoId" class="form-control" />
+            <div class="form-group">
+                <input class="btn btn-primary btn-lg btn-block" type="submit" value="Comment" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to Videos</a>
+</div>
+

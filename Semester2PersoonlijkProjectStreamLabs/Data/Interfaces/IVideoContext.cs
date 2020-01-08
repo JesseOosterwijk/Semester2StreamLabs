@@ -1,10 +1,14 @@
-﻿namespace Data.Interfaces
+﻿using Microsoft.AspNetCore.Http;
+using Models;
+using System.Collections.Generic;
+
+namespace Data.Interfaces
 {
     public interface IVideoContext
     {
-        void UploadVideo();
-        void DeleteVideo();
-        void RestrictVideo();
-        string[] GetAllVideos(string userName);
+        void SaveVideo(Video video);
+        void DeleteVideo(Video video);
+        void RestrictVideo(Video video);
+        List<Video> GetVideos();
     }
 }

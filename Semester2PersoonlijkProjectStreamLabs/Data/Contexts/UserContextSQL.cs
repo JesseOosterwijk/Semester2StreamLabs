@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Globalization;
+using System.Net;
+using System.Net.Mail;
 using System.Text.RegularExpressions;
 
 namespace Data.Contexts
@@ -72,28 +74,6 @@ namespace Data.Contexts
             catch (Exception)
             {
                 throw new ArgumentException("User not edited");
-            }
-            finally
-            {
-                _conn.Close();
-            }
-        }
-
-        public void DeleteUser(User user)
-        {
-            try
-            {
-                _conn.Open();
-                using (SqlCommand cmd = new SqlCommand("DeleteUser", _conn))
-                {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add("@UserId", SqlDbType.Int).Value = user.UserId;
-                    cmd.ExecuteNonQuery();
-                }
-            }
-            catch (Exception)
-            {
-                throw new ArgumentException("Delete user failed");
             }
             finally
             {
@@ -444,5 +424,42 @@ namespace Data.Contexts
             }
         }
 
+        public bool SendEmail(string emailaddress, string newPassword)
+        {
+            try
+            {
+                MailAddress fromAddress = new MailAddress("semester2labs.noreply@gmail.com", "NoReply StreamLabs");
+                MailAddress toAddress = new MailAddress(emailaddress);
+                const string subject = "New password";
+                string body = "L.S.,\n" +
+                                    "U heeft een nieuw wachtwoord aangevraagd!\n" +
+                                    "Uw nieuwe wachtwoord is: " + newPassword + ".\n" +
+                                    "Met vriendelijke groet,\n" +
+                                    "Het administratorteam van StreamLabs";
+                SmtpClient smtp = new SmtpClient
+                {
+                    Host = "smtp.gmail.com",
+                    Port = 587,
+                    EnableSsl = true,
+                    DeliveryMethod = SmtpDeliveryMethod.Network,
+                    UseDefaultCredentials = false,
+                    Credentials = new NetworkCredential(fromAddress.Address, "domww112")
+                };
+                using (MailMessage message = new MailMessage(fromAddress, toAddress)
+                {
+                    Subject = subject,
+                    Body = body
+                })
+                {
+                    smtp.Send(message);
+                }
+
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
     }
 }

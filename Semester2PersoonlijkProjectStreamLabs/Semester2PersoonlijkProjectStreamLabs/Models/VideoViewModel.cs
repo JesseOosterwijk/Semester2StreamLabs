@@ -1,5 +1,8 @@
-﻿using Models;
+﻿using Microsoft.AspNetCore.Http;
+using Models;
+using Semester2PersoonlijkProjectStreamLabs.HelperClasses;
 using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Semester2PersoonlijkProjectStreamLabs.Models
 {
@@ -12,6 +15,9 @@ namespace Semester2PersoonlijkProjectStreamLabs.Models
         public DateTime DateOfUpload { get; set; }
         public int VideoLength { get; set; }
         public int Views { get; set; }
+        public string ContentUrl { get; set; }
+        public int CategoryId { get; set; }
+        public IFormFile Video { get; set; }
 
         public VideoViewModel(Video video)
         {
@@ -20,8 +26,7 @@ namespace Semester2PersoonlijkProjectStreamLabs.Models
             Name = video.Name;
             Description = video.Description;
             DateOfUpload = video.DateOfUpload;
-            VideoLength = video.VideoLength;
-            Views = video.Views;
+            ContentUrl = video.VideoUrl;
         }
 
         public VideoViewModel(string name, string description)

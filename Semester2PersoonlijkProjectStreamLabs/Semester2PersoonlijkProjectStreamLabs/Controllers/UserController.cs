@@ -3,9 +3,9 @@ using System.Security.Claims;
 using Logic;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Models;
-using ProftaakASP_S2.Models;
 using Semester2PersoonlijkProjectStreamLabs.Models;
 
 namespace Semester2PersoonlijkProjectStreamLabs.Controllers
@@ -13,10 +13,12 @@ namespace Semester2PersoonlijkProjectStreamLabs.Controllers
     public class UserController : Controller
     {
         private readonly UserLogic _userLogic;
+        private readonly AccountLogic _accountLogic;
 
-        public UserController(UserLogic userLogic)
+        public UserController(UserLogic userLogic, AccountLogic accountLogic)
         {
             _userLogic = userLogic;
+            _accountLogic = accountLogic;
         }
 
         public IActionResult Index()
@@ -156,6 +158,67 @@ namespace Semester2PersoonlijkProjectStreamLabs.Controllers
                 return View();
             }
             return RedirectToAction("Login");
+        }
+
+        public ActionResult EditAccount()
+        {
+            return View();
+        }
+
+        [Authorize]
+        [HttpPost]
+        public ActionResult EditAccount(UserViewModel userViewModel, string password)
+        {
+            if (!_userLogic.CheckIfUserAlreadyExists(userViewModel.EmailAddress))
+            {
+                if (_userLogic.CheckIfEmailIsValid(userViewModel.EmailAddress))
+                {
+                    try
+                    {
+                        switch (userViewModel.UserAccountType)
+                        {
+                            case global::Models.User.AccountType.Viewer:
+                                _userLogic.EditUser(new Viewer(global::Models.User.AccountType.Viewer, userViewModel.UserName, userViewModel.FirstName, userViewModel.LastName,
+                                        Convert.ToDateTime(userViewModel.BirthDate), (User.Gender)Enum.Parse(typeof(User.Gender), userViewModel.UserGender), userViewModel.EmailAddress, userViewModel.Address, userViewModel.City,
+                                        userViewModel.PostalCode, password, true));
+                                break;
+                            case global::Models.User.AccountType.Admin:
+                                _userLogic.EditUser(new Viewer(global::Models.User.AccountType.Viewer, userViewModel.UserName, userViewModel.FirstName, userViewModel.LastName,
+                                        Convert.ToDateTime(userViewModel.BirthDate), (User.Gender)Enum.Parse(typeof(User.Gender), userViewModel.UserGender), userViewModel.EmailAddress, userViewModel.Address, userViewModel.City,
+                                        userViewModel.PostalCode, password, true));
+                                break;
+                            default:
+                                _userLogic.EditUser(new Viewer(global::Models.User.AccountType.Viewer, userViewModel.UserName, userViewModel.FirstName, userViewModel.LastName,
+                                        Convert.ToDateTime(userViewModel.BirthDate), (User.Gender)Enum.Parse(typeof(User.Gender), userViewModel.UserGender), userViewModel.EmailAddress, userViewModel.Address, userViewModel.City,
+                                        userViewModel.PostalCode, password, true));
+                                break;
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        ViewBag.Message = "De gegevens zijn onjuist ingevoerd.";
+                        return RedirectToAction("EditAccount");
+                    }
+                }
+                else
+                {
+                    ViewBag.Message = "Foutieve email ingevoerd";
+                    return View();
+                }
+            }
+            else
+            {
+                ViewBag.Message = "Er bestaat al een account met dit e-mailadres";
+                return View();
+            }
+
+            return RedirectToAction("AccountOverview");
+        }
+
+        public ActionResult DeleteAccount(UserViewModel user)
+        {
+            _accountLogic.DeleteUser(user.UserId);
+            return View();
         }
 
     }

@@ -1,7 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using Models;
 
-namespace ProftaakASP_S2.Models
+namespace Semester2PersoonlijkProjectStreamLabs.Models
 {
     public class UserViewModel
     {
@@ -21,6 +22,7 @@ namespace ProftaakASP_S2.Models
         public User.AccountType UserAccountType { get; set; }
         public bool Status { get; set; }
         public User Professional { get; set; }
+        public List<User> Users { get; internal set; }
 
         public UserViewModel(User user)
         {

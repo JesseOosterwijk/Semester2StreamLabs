@@ -18,9 +18,10 @@
             CategoryId = categoryId;
         }
 
-        public Category(string categoryName)
+        public Category(string categoryName, string description)
         {
             Name = categoryName;
+            Description = description;
         }
 
         public override string ToString()

@@ -35,8 +35,8 @@ namespace Semester2PersoonlijkProjectStreamLabs
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
                 {
-                    options.AccessDeniedPath = "/Home/ErrorForbidden";
-                    options.LoginPath = "/Home/ErrorNotLoggedIn";
+                    options.AccessDeniedPath = "/Home/Forbidden";
+                    options.LoginPath = "/User/Login";
                 });
 
             services.AddAuthorization(options =>
@@ -49,9 +49,13 @@ namespace Semester2PersoonlijkProjectStreamLabs
             services.AddScoped<ICommentContext, CommentContextSQL>();
             services.AddScoped<IUserContext, UserContextSQL>();
             services.AddScoped<IVideoContext, VideoContextSQL>();
+            services.AddScoped<IAccountContext, AccountContext>();
+            services.AddScoped<IReportContext, ReportContext>();
 
-            services.AddScoped<CategoryLogic>();
             services.AddScoped<CommentLogic>();
+            services.AddScoped<AccountLogic>();
+            services.AddScoped<CategoryLogic>();
+            services.AddScoped<ReportLogic>();
             services.AddScoped<UserLogic>();
             services.AddScoped<VideoLogic>();
         }

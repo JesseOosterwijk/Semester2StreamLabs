@@ -1,0 +1,9 @@
+﻿@model Semester2PersoonlijkProjectStreamLabs.Models.VideoViewModel
+
+@{
+    ViewData["Title"] = "VideoView";
+}
+
+<h2>Video</h2>
+
+<video id="videoplayer" src="@Url.Content(Model.ContentUrl)" controls width="450" height="450" loop />

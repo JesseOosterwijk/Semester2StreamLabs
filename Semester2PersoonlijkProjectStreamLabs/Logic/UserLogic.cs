@@ -25,11 +25,6 @@ namespace Logic
             _user.EditUser(user);
         }
 
-        public void DeleteUser(User user)
-        {
-            _user.DeleteUser(user);
-        }
-
         public List<User> GetAllUsers()
         {
             return _user.GetAllUsers();
@@ -68,6 +63,11 @@ namespace Logic
         public User CheckValidityUser(string emailAddress, string password)
         {
             return _user.CheckValidityUser(emailAddress, password);
+        }
+
+        public bool SendEmail(string emailAddress, string newPassword)
+        {
+            return _user.SendEmail(emailAddress, newPassword);
         }
     }
 }

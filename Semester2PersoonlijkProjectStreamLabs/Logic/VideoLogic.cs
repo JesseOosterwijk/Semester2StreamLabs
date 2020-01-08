@@ -1,4 +1,7 @@
 ﻿using Data.Interfaces;
+using Microsoft.AspNetCore.Http;
+using Models;
+using System.Collections.Generic;
 
 namespace Logic
 {
@@ -11,24 +14,24 @@ namespace Logic
             _video = video;
         }
 
-        public void UploadVideo()
+        public void SaveVideo(Video video)
         {
-            _video.UploadVideo();
+            _video.SaveVideo(video);
         }
 
-        public void DeleteVideo()
+        public void DeleteVideo(Video video)
         {
-            _video.UploadVideo();
+            _video.DeleteVideo(video);
         }
 
-        public void RestrictVideo()
+        public void RestrictVideo(Video video)
         {
-            _video.RestrictVideo();
+            _video.RestrictVideo(video);
         }
 
-        public string[] GetAllVideos(string userName)
+        public List<Video> GetVideos()
         {
-            return _video.GetAllVideos(userName);
+            return _video.GetVideos();
         }
     }
 }
