@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Models;
-using Semester2PersoonlijkProjectStreamLabs.HelperClasses;
 using System;
 using System.ComponentModel.DataAnnotations;
 
@@ -9,8 +8,10 @@ namespace Semester2PersoonlijkProjectStreamLabs.Models
     public class VideoViewModel
     {
         public int VideoId { get; set; }
+        [Required(ErrorMessage = "Please select a category.")]
         public Category VideoCategory { get; set; }
         public string Name { get; set; }
+        [Required(ErrorMessage = "Please enter a description.")]
         public string Description { get; set; }
         public DateTime DateOfUpload { get; set; }
         public int VideoLength { get; set; }

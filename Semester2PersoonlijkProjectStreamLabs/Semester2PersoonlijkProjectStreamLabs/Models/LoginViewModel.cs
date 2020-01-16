@@ -5,9 +5,9 @@ namespace Semester2PersoonlijkProjectStreamLabs.Models
 {
     public class LoginViewModel
     {
-        [Required(ErrorMessage = "Het emailadres moet worden ingevuld")]
+        [Required(ErrorMessage = "Please fill in your e-mail")]
         public string EmailAddress { get; set; }
-        [Required(ErrorMessage = "Het wachtwoord moet worden ingevuld.")]
+        [Required(ErrorMessage = "Please fill in your password.")]
         public string Password { get; set; }
 
         public LoginViewModel(User user, string password)

@@ -38,7 +38,7 @@ namespace Semester2PersoonlijkProjectStreamLabs.Controllers
                 Users = _userLogic.GetAllUsers(),
             };
 
-            return View("UserOverview", uvm);
+            return View("../Viewer/ViewerList", uvm);
         }
 
         public ActionResult DisableUser(User user)
@@ -118,10 +118,13 @@ namespace Semester2PersoonlijkProjectStreamLabs.Controllers
         [HttpPost]
         public ActionResult GetCommentsUser(UserViewModel userViewModel)
         {
-            CommentViewModel comments = new CommentViewModel()
+
+            CommentViewModel comments = new CommentViewModel();
+            foreach(Comment comment in _commentLogic.GetAllCommentsByUser(userViewModel.UserId))
             {
-                Comments = _commentLogic.GetAllCommentsByUser(userViewModel.UserId)
-            };
+                CommentViewModel viewModel = new CommentViewModel(comment);
+                comments.Comments.Add(viewModel);
+            }
 
             return View("UserComments", comments);
         }

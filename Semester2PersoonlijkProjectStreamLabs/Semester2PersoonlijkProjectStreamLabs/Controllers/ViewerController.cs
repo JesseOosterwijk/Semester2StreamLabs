@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using Logic;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using Semester2PersoonlijkProjectStreamLabs.Models;
-using System.Linq;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Semester2PersoonlijkProjectStreamLabs.Controllers
 {
@@ -27,6 +26,7 @@ namespace Semester2PersoonlijkProjectStreamLabs.Controllers
             return View();
         }
 
+        [Authorize(Policy ="Admin")]
         [HttpGet]
         public ActionResult UserOverview()
         {
@@ -40,37 +40,30 @@ namespace Semester2PersoonlijkProjectStreamLabs.Controllers
         }
 
         [HttpGet]
-        public ActionResult GetVideosUser(UserViewModel user)
+        public ActionResult SearchForVideos(string searchTerm)
         {
+            List<Video> videos = _videoLogic.SearchForVideos(searchTerm);
             List<VideoViewModel> videoViewModels = new List<VideoViewModel>();
-            string userName = user.FirstName + " " + user.LastName;
-            string pathString = Path.Combine(@"C:\Users\jesse\source\repos\Semester2PPStreamLabs\Semester2PersoonlijkProjectStreamLabs\Semester2PersoonlijkProjectStreamLabs\wwwroot\video", userName);
-            List<Video> videos = _videoLogic.GetVideos();
             foreach (Video video in videos)
             {
-                VideoViewModel videoViewModel =  new VideoViewModel(video);
+                VideoViewModel videoViewModel = new VideoViewModel(video);
+                videoViewModels.Add(videoViewModel);
+            }
+            return View("../Viewer/ViewerVideoList", videoViewModels);
+        }
+
+        [HttpGet]
+        public ActionResult GetVideosUser(UserViewModel user)
+        {
+            List<Video> videos = _videoLogic.GetVideosUser(user.UserId);
+            List<VideoViewModel> videoViewModels = new List<VideoViewModel>();
+            foreach (Video video in videos)
+            {
+                VideoViewModel videoViewModel = new VideoViewModel(video);
                 videoViewModels.Add(videoViewModel);
             }
 
             return View("ViewerVideoList", videoViewModels);
-        }
-
-        [HttpGet]
-        public ActionResult CommentOnVideo(VideoViewModel video)
-        {
-            CommentViewModel model = new CommentViewModel
-            {
-                VideoId = video.VideoId
-            };
-            return View("CommentOnVideo", model);
-        }
-
-        [HttpPost]
-        public ActionResult CommentOnVideo(CommentViewModel comment)
-        {
-            int userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.Sid)?.Value);
-            _commentLogic.CommentOnVideo(new Comment(comment.VideoId, userId, comment.Content, DateTime.Now));
-            return RedirectToAction("CommentOnVideo");
         }
 
 

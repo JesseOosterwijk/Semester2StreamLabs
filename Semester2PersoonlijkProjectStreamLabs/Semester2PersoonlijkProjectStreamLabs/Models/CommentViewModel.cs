@@ -1,8 +1,7 @@
 ﻿using Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace Semester2PersoonlijkProjectStreamLabs.Models
 {
@@ -11,9 +10,12 @@ namespace Semester2PersoonlijkProjectStreamLabs.Models
         public int CommentId { get; set; }
         public int VideoId { get; set; }
         public int UserId { get; set; }
+        [Required(ErrorMessage = "Please enter a comment")]
         public string Content { get; set; }
         public DateTime TimeStamp { get; set; }
-        public List<Comment> Comments { get; set; }
+        public List<CommentViewModel> Comments { get; set; }
+        public string UserName { get; set; }
+        public bool Status { get; set; }
 
         public CommentViewModel(int commentId, int videoId, int userId, string content, DateTime timeStamp)
         {

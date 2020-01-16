@@ -17,5 +17,10 @@ namespace Models
         {
 
         }
+
+        public Viewer()
+        {
+            ;
+        }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using Data.Interfaces;
-using Microsoft.AspNetCore.Http;
 using Models;
 using System.Collections.Generic;
 
@@ -32,6 +31,21 @@ namespace Logic
         public List<Video> GetVideos()
         {
             return _video.GetVideos();
+        }
+
+        public List<Video> SearchForVideos(string searchTerm)
+        {
+            return _video.SearchForVideos(searchTerm);
+        }
+
+        public List<Video> GetVideosUser(int userId)
+        {
+            return _video.GetVideosUser(userId);
+        }
+
+        public Video GetVideoById(int videoId)
+        {
+            return _video.GetVideoById(videoId);
         }
     }
 }

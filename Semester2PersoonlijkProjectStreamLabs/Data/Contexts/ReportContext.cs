@@ -16,7 +16,7 @@ namespace Data.Contexts
             try
             {
                 _conn.Open();
-                using (SqlCommand cmd = new SqlCommand("ReportUser", _conn))
+                using (SqlCommand cmd = new SqlCommand("ReportVideo", _conn))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@UserId", SqlDbType.Int).Value = report.UserId;

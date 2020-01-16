@@ -1,25 +1,53 @@
 ﻿@model Semester2PersoonlijkProjectStreamLabs.Models.CommentViewModel
 
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
 <h4>Comment</h4>
 
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="CommentOnVideo">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Content" class="control-label">Write your comment here:</label>
-                <input asp-for="Content" class="form-control" />
-                <span asp-validation-for="Content" class="text-danger"></span>
+@if (Model.Comments.Count == 0)
+{
+    @:No comments. Be the first one to comment!
+}
+else
+{
+    <h2>Comments on video: </h2>
+
+    @foreach (CommentViewModel comment in Model.Comments)
+    {
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-1">
+                    <div class="thumbnail">
+                        <img class="img-responsive user-photo" src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png">
+                    </div>
+                </div>
+                <div class="col-sm-5">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <strong>@Html.DisplayFor(modelItem => comment.UserName)</strong> <span class="text-muted">commented at: @Html.DisplayFor(modelItem => comment.TimeStamp)</span>
+                        </div>
+                        <div class="panel-body">
+                            @Html.DisplayFor(modelItem => comment.Content)
+                        </div>
+                    </div>
+                </div>
             </div>
-            <input type="hidden" asp-for="VideoId" class="form-control" />
-            <div class="form-group">
-                <input class="btn btn-primary btn-lg btn-block" type="submit" value="Comment" class="btn btn-default" />
-            </div>
-        </form>
-    </div>
-</div>
+        </div>
+    }
+}
+
 
 <div>
-    <a asp-action="Index">Back to Videos</a>
+    <a asp-action="Index">Back to videos User</a>
 </div>
 
+@if (Model.Status)
+{
+    <form method="post" asp-action="CommentOnVideo">
+        <input asp-for="Content" class="form-control" />
+        <input type="hidden" asp-for="VideoId" class="form-control" />
+        <input type="submit" value="Verstuur" style="margin-top: 10px" class="btn btn-primary btn-lg btn-block" />
+    </form>
+}

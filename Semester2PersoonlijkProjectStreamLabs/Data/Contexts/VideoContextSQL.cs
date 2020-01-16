@@ -18,6 +18,7 @@ namespace Data.Contexts
                 using (SqlCommand cmd = new SqlCommand("SaveVideo", _conn))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@UserId", SqlDbType.Int).Value = video.UserId;
                     cmd.Parameters.AddWithValue("@Name", SqlDbType.NVarChar).Value = video.Name;
                     cmd.Parameters.AddWithValue("@Description", SqlDbType.NVarChar).Value = video.Description;
                     cmd.Parameters.AddWithValue("@ContentUrl", SqlDbType.NVarChar).Value = video.VideoUrl;
@@ -95,13 +96,58 @@ namespace Data.Contexts
                 DataTable dt = new DataTable();
                 cmd.Fill(dt);
 
-                string hashedPassword = dt.Rows[0].ItemArray[11].ToString();
+                string name = dt.Rows[0].ItemArray[0].ToString();
+                string description = dt.Rows[0].ItemArray[1].ToString();
+                DateTime dateOfUpload = (DateTime)dt.Rows[0].ItemArray[2];
+                Category category = new Category(0, dt.Rows[0].ItemArray[6].ToString(), null);
+                string url = dt.Rows[0].ItemArray[5].ToString();
 
-                return new Video(videoId);
+
+
+                return new Video(videoId, category, name, description, dateOfUpload, url);
             }
             catch (Exception)
             {
+                throw;
+            }
+            finally
+            {
 
+            }
+        }
+
+        public List<Video> GetVideosUser(int userId)
+        {
+            try
+            {
+                _conn.Open();
+
+                List<Video> videoList = new List<Video>();
+
+                SqlCommand cmd = new SqlCommand("GetAllVideosUser", _conn)
+                {
+                    CommandType = CommandType.StoredProcedure,
+                };
+                cmd.Parameters.AddWithValue(@"UserId", SqlDbType.Int).Value = userId;
+
+                DataTable dt = new DataTable();
+                dt.Load(cmd.ExecuteReader());
+
+                foreach (DataRow dr in dt.Rows)
+                {
+                    int videoId = (int)dr["VideoId"];
+                    string videoName = dr["Name"].ToString();
+                    Category videoCategory = new Category(0, dr["CatName"].ToString(), null);
+                    string description = dr["Description"].ToString();
+                    DateTime dateOfUpload = (DateTime)dr["DateOfUpload"];
+                    string videoUrl = dr["VideoPath"].ToString();
+                    Video video = new Video(videoId, videoCategory, description, videoName, dateOfUpload, videoUrl);
+                    videoList.Add(video);
+                }
+                return videoList;
+            }
+            catch (Exception)
+            {
                 throw;
             }
             finally

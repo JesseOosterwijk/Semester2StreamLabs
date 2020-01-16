@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using Models;
 
 namespace Semester2PersoonlijkProjectStreamLabs.Models
@@ -10,14 +11,23 @@ namespace Semester2PersoonlijkProjectStreamLabs.Models
         public enum Gender { Man, Vrouw, Anders }
 
         public int UserId { get; set; }
+        [Required(ErrorMessage = "Please fill in your username.")]
         public string UserName { get; set; }
+        [Required(ErrorMessage = "Please fill in your first name.")]
         public string FirstName { get; set; }
+        [Required(ErrorMessage = "Please fill in your last name.")]
         public string LastName { get; set; }
+        [Required(ErrorMessage = "Please fill in your address.")]
         public string Address { get; set; }
+        [Required(ErrorMessage = "Please fill in your residence.")]
         public string City { get; set; }
+        [Required(ErrorMessage = "Please fill in your postal code.")]
         public string PostalCode { get; set; }
+        [Required(ErrorMessage = "Please fill in your email.")]
         public string EmailAddress { get; set; }
+        [Required(ErrorMessage = "Please fill in your birthdate.")]
         public DateTime BirthDate { get; set; }
+        [Required(ErrorMessage = "Please fill in your gender.")]
         public string UserGender { get; set; }
         public User.AccountType UserAccountType { get; set; }
         public bool Status { get; set; }

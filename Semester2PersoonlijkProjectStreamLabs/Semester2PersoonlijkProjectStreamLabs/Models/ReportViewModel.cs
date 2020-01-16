@@ -1,5 +1,6 @@
 ﻿using Models;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Semester2PersoonlijkProjectStreamLabs.Models
 {
@@ -8,6 +9,7 @@ namespace Semester2PersoonlijkProjectStreamLabs.Models
         public int ReportId { get; }
         public int VideoId { get; }
         public int UserId { get; }
+        [Required(ErrorMessage = "Please fill in the reason for the report")]
         public string Content { get; }
         public List<Report> Reports { get; internal set; }
 

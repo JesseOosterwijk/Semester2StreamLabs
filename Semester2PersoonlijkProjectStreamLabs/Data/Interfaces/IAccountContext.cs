@@ -1,6 +1,4 @@
-﻿using Models;
-
-namespace Data.Interfaces
+﻿namespace Data.Interfaces
 {
     public interface IAccountContext
     {

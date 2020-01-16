@@ -49,7 +49,7 @@ namespace Semester2PersoonlijkProjectStreamLabs.Controllers
                 var identity = new ClaimsIdentity(new[]
                 {
                     new Claim(ClaimTypes.Sid, newCustomer.UserId.ToString()),
-                    new Claim(ClaimTypes.Name, newCustomer.FirstName + " " + newCustomer.LastName),
+                    new Claim(ClaimTypes.Name, newCustomer.UserName),
                     new Claim(ClaimTypes.Gender, newCustomer.UserGender.ToString()),
                     new Claim(ClaimTypes.Email, newCustomer.EmailAddress),
                     new Claim(ClaimTypes.PostalCode, newCustomer.PostalCode),
@@ -66,11 +66,11 @@ namespace Semester2PersoonlijkProjectStreamLabs.Controllers
                 switch (newCustomer.UserAccountType)
                 {
                     case global::Models.User.AccountType.Admin:
-                        return RedirectToAction("Index", "Admin");
+                        return RedirectToAction("UserOverview", "Viewer");
                     case global::Models.User.AccountType.Viewer:
                         return RedirectToAction("UploadVideo", "Video");
                     default:
-                        return RedirectToAction("Overview", "Viewer");
+                        return RedirectToAction("UploadVideo", "Video");
                 }
             }
             catch (NullReferenceException)

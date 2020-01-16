@@ -1,12 +1,15 @@
 ﻿using Models;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Semester2PersoonlijkProjectStreamLabs.Models
 {
     public class CategoryViewModel
     {
         public int CategoryId { get; set; }
+        [Required(ErrorMessage = "Please enter a name for the category.")]
         public string CategoryName { get; set; }
+        [Required(ErrorMessage = "Please enter a description for the category.")]
         public string Description { get; set; }
         public List<Category> Categories { get; internal set; }
 

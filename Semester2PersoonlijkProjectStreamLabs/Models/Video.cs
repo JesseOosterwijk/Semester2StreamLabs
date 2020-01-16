@@ -14,15 +14,17 @@ namespace Models
         public int CategoryId { get; }
         public int Views { get; }
         public string VideoUrl { get; }
+        public int UserId { get; }
 
         public Video()
         {
-            ;
+
         }
 
-        public Video(int videoId, Category videoCategory, string description, string name, DateTime dateOfUpload, string url)
+        public Video(int videoId, int userId, Category videoCategory, string description, string name, DateTime dateOfUpload, string url)
         {
             VideoId = videoId;
+            UserId = userId;
             VideoCategory = videoCategory;
             Description = description;
             Name = name;
@@ -30,8 +32,9 @@ namespace Models
             VideoUrl = url;
         }
 
-        public Video(int videoId, string description, string name, DateTime dateOfUpload, string url, int categoryId)
+        public Video(int userId, int videoId, string description, string name, DateTime dateOfUpload, string url, int categoryId)
         {
+            UserId = userId;
             VideoId = videoId;
             Description = description;
             Name = name;
@@ -40,8 +43,9 @@ namespace Models
             CategoryId = categoryId;
         }
 
-        public Video(Category videoCategory, string name, string description, DateTime dateOfUpload, string videoUrl)
+        public Video(int userId, Category videoCategory, string name, string description, DateTime dateOfUpload, string videoUrl)
         {
+            UserId = userId;
             VideoCategory = videoCategory;
             Name = name;
             Description = description;

@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Models;
+﻿using Models;
 using System.Collections.Generic;
 
 namespace Data.Interfaces
@@ -10,5 +9,8 @@ namespace Data.Interfaces
         void DeleteVideo(Video video);
         void RestrictVideo(Video video);
         List<Video> GetVideos();
+        List<Video> SearchForVideos(string searchTerm);
+        Video GetVideoById(int videoId);
+        List<Video> GetVideosUser(int userId);
     }
 }
