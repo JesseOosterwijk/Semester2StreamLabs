@@ -1,44 +1,44 @@
 ﻿@using Models;
-@model Semester2PersoonlijkProjectStreamLabs.Models.ReportViewModel
+@model Semester2PersoonlijkProjectStreamLabs.Models.VideoViewModel
 
 @{
-    ViewData["Title"] = "ReportOverview";
+    ViewData["Title"] = "VideoOverview";
 }
 
-<h2>ReportOverView</h2>
+<h2>Video Overview</h2>
 
 <table class="table table-striped">
     <thead>
         <tr>
             <th>
-                Reason of report
+                Video name
             </th>
             <th>
-                Video
+                Date of upload
             </th>
             <th>
                 User
             </th>
             <th>
-                Delete report
+                DeleteVideo
             </th>
         </tr>
     </thead>
     <tbody>
-        @foreach (Report item in Model.Reports)
+        @foreach (Video item in Model.Videos)
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Content)
+                    @Html.DisplayFor(modelItem => item.Name)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.VideoId)
+                    @Html.DisplayFor(modelItem => item.DateOfUpload)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.UserId)
                 </td>
                 <td>
-                    @Html.ActionLink("Delete Report", "DeleteReport", new { id = item.ReportId })
+                    @Html.ActionLink("Delete Video", "DeleteVideo", new { id = item.VideoId })
                 </td>
             </tr>
         }

@@ -33,6 +33,7 @@ namespace Semester2PersoonlijkProjectStreamLabs.Models
         public bool Status { get; set; }
         public User Professional { get; set; }
         public List<User> Users { get; internal set; }
+        public string Type { get; set; }
 
         public UserViewModel(User user)
         {

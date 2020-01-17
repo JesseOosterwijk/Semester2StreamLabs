@@ -1,0 +1,45 @@
+﻿@model Semester2PersoonlijkProjectStreamLabs.Models.UserViewModel
+
+@{
+    ViewData["Title"] = "SettingsMenu";
+}
+
+<div class="row">
+    <!-- side nav-->
+    <aside class="col-sm-6 col-md-3 card  my-4" style="height:100%">
+        <h3>Settings</h3>
+        <hr />
+        <ul>
+            <li>
+                <a href="/User/SettingsMenu" class="active">
+                    <span class="fa fa-gear"></span>
+                    Gebruikers info
+                </a>
+            </li>
+            @if (User.IsInRole("Viewer"))
+            {
+                <li>
+                    <a href="/Viewer/UpdateUserInfo">
+                        <span class="fa fa-wrench"></span>
+                        Gebruiker aanpassen
+                    </a>
+                </li>
+                <li>
+                    <a href="/Viewer/DisableUser">
+                        <span class="fa fa-wrench"></span>
+                        Disable Account
+                    </a>
+                </li>
+            }
+        </ul>
+    </aside>
+
+    <h3>Uw informatie:</h3>
+    <div class="col-sm-8 col-md-6 card  my-5">
+        <div>Voornaam: @Model.FirstName</div>
+        <div>Achternaam: @Model.LastName</div>
+        <div>Email: @Model.EmailAddress</div>
+        <div>Rol: @Model.Type</div>
+    </div>
+
+</div>

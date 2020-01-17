@@ -47,5 +47,15 @@ namespace Logic
         {
             return _video.GetVideoById(videoId);
         }
+
+        public void SetVideosToDefaultCategory(int categoryId)
+        {
+            _video.SetVideosToDefaultCategory(categoryId);
+        }
+
+        public List<Video> GetVideosWithCategory(int categoryId)
+        {
+            return _video.GetVideosWithCategory(categoryId);
+        }
     }
 }

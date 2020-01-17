@@ -94,5 +94,42 @@ namespace Data.Contexts
                 _conn.Close();
             }
         }
+
+        public List<Report> GetAllReports()
+        {
+            try
+            {
+                List<Report> reports = new List<Report>();
+                _conn.Open();
+
+                SqlCommand cmd = new SqlCommand("GetAllReports", _conn)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
+
+                DataTable dt = new DataTable();
+                dt.Load(cmd.ExecuteReader());
+
+                foreach (DataRow dr in dt.Rows)
+                {
+                    int reportId = (int)dr["ReportId"];
+                    int videoId = (int)dr["VideoId"];
+                    int userId = (int)dr["UserId"];
+                    string content = dr["Content"].ToString();
+                    Report report = new Report(reportId, videoId, userId, content);
+                    reports.Add(report);
+                }
+                return reports;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            finally
+            {
+                _conn.Close();
+            }
+        }
     }
 }

@@ -8,6 +8,7 @@ namespace Data.Interfaces
         List<Category> GetAllCategories();
         void AddNewCategory(Category newCategory);
         void EditCategory(Category category);
-        void DeleteCategory(Category category);
+        void DeleteCategory(int categoryId);
+        Category GetCategoryById(int categoryId);
     }
 }

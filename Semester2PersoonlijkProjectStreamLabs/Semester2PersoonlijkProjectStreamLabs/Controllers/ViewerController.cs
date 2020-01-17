@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 using Models;
 using Semester2PersoonlijkProjectStreamLabs.Models;
 using Microsoft.AspNetCore.Authorization;
+using System.Linq;
+using System.Security.Claims;
 
 namespace Semester2PersoonlijkProjectStreamLabs.Controllers
 {
@@ -19,6 +21,16 @@ namespace Semester2PersoonlijkProjectStreamLabs.Controllers
             _userLogic = userLogic;
             _videoLogic = videoLogic;
             _commentLogic = commentLogic;
+        }
+
+        [Authorize(Policy = "Viewer")]
+        public IActionResult UpdateUserInfo()
+        {
+            var userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid).Value);
+
+            User currentUser = _userLogic.GetUserById(userId);
+            UserViewModel model = new UserViewModel(currentUser);
+            return View(model);
         }
 
         public IActionResult Index()

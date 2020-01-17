@@ -27,7 +27,12 @@ namespace Data.Memory
 
         }
 
-        public void DeleteCategory(Category category)
+        public Category GetCategoryById(int categoryId)
+        {
+            return new Category(1, "foo", "baa");
+        }
+
+        public void DeleteCategory(int categoryId)
         {
 
         }

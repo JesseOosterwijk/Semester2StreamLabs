@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Models;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Semester2PersoonlijkProjectStreamLabs.Models
@@ -19,10 +20,13 @@ namespace Semester2PersoonlijkProjectStreamLabs.Models
         public string ContentUrl { get; set; }
         public int CategoryId { get; set; }
         public IFormFile Video { get; set; }
+        public List<Video> Videos { get; internal set; }
+        public int UserId { get; set; }
 
         public VideoViewModel(Video video)
         {
             VideoId = video.VideoId;
+            UserId = video.UserId;
             VideoCategory = video.VideoCategory;
             Name = video.Name;
             Description = video.Description;

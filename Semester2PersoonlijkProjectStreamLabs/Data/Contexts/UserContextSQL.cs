@@ -57,17 +57,16 @@ namespace Data.Contexts
                 using (SqlCommand cmd = new SqlCommand("EditUser", _conn))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add("@userName", SqlDbType.NVarChar).Value = user.UserName;
-                    cmd.Parameters.Add("@firstName", SqlDbType.NVarChar).Value = user.FirstName;
-                    cmd.Parameters.Add("@lastName", SqlDbType.NVarChar).Value = user.LastName;
-                    cmd.Parameters.Add("@email", SqlDbType.NVarChar).Value = user.EmailAddress;
-                    cmd.Parameters.Add("@address", SqlDbType.NVarChar).Value = user.Address;
-                    cmd.Parameters.Add("@birthDate", SqlDbType.DateTime).Value = user.BirthDate;
-                    cmd.Parameters.Add("@city", SqlDbType.NVarChar).Value = user.City;
-                    cmd.Parameters.Add("@gender", SqlDbType.Bit).Value = user.UserGender;
-                    cmd.Parameters.Add("@password", SqlDbType.NVarChar).Value = user.Password;
-                    cmd.Parameters.Add("@postalCode", SqlDbType.NChar).Value = user.PostalCode;
-                    cmd.Parameters.Add("@accountType", SqlDbType.NVarChar).Value = user.UserAccountType;
+                    cmd.Parameters.Add("@UserName", SqlDbType.NVarChar).Value = user.UserName;
+                    cmd.Parameters.Add("@FirstName", SqlDbType.NVarChar).Value = user.FirstName;
+                    cmd.Parameters.Add("@LastName", SqlDbType.NVarChar).Value = user.LastName;
+                    cmd.Parameters.Add("@Email", SqlDbType.NVarChar).Value = user.EmailAddress;
+                    cmd.Parameters.Add("@Address", SqlDbType.NVarChar).Value = user.Address;
+                    cmd.Parameters.Add("@BirthDate", SqlDbType.DateTime).Value = user.BirthDate;
+                    cmd.Parameters.Add("@City", SqlDbType.NVarChar).Value = user.City;
+                    cmd.Parameters.Add("@Gender", SqlDbType.Bit).Value = user.UserGender;
+                    cmd.Parameters.Add("@PostalCode", SqlDbType.NChar).Value = user.PostalCode;
+                    cmd.Parameters.Add("@UserId", SqlDbType.Int).Value = user.UserId;
                     cmd.ExecuteNonQuery();
                 }
             }

@@ -4,6 +4,7 @@ using Logic;
 using Models;
 using Semester2PersoonlijkProjectStreamLabs.Models;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace Semester2PersoonlijkProjectStreamLabs.Controllers
 {
@@ -15,14 +16,16 @@ namespace Semester2PersoonlijkProjectStreamLabs.Controllers
         private readonly CategoryLogic _categoryLogic;
         private readonly CommentLogic _commentLogic;
         private readonly ReportLogic _reportLogic;
+        private readonly VideoLogic _videoLogic;
 
-        public AdminController(UserLogic userLogic, AccountLogic accountLogic, CategoryLogic categoryLogic, CommentLogic commentLogic, ReportLogic reportLogic)
+        public AdminController(UserLogic userLogic, AccountLogic accountLogic, CategoryLogic categoryLogic, CommentLogic commentLogic, ReportLogic reportLogic, VideoLogic videoLogic)
         {
             _userLogic = userLogic;
             _accountLogic = accountLogic;
             _categoryLogic = categoryLogic;
             _commentLogic = commentLogic;
             _reportLogic = reportLogic;
+            _videoLogic = videoLogic;
         }
 
         public IActionResult Index()
@@ -30,6 +33,7 @@ namespace Semester2PersoonlijkProjectStreamLabs.Controllers
             return View();
         }
 
+        [Authorize(Policy ="Admin")]
         [HttpGet]
         public ActionResult UserOverview()
         {
@@ -39,6 +43,17 @@ namespace Semester2PersoonlijkProjectStreamLabs.Controllers
             };
 
             return View("../Viewer/ViewerList", uvm);
+        }
+
+        [HttpGet]
+        public IActionResult CategoryOverview()
+        {
+            CategoryViewModel overview = new CategoryViewModel()
+            {
+                Categories = _categoryLogic.GetAllCategories(),
+            };
+
+            return View("CategoryOverView", overview);
         }
 
         public ActionResult DisableUser(User user)
@@ -75,44 +90,44 @@ namespace Semester2PersoonlijkProjectStreamLabs.Controllers
             return View();
         }
 
+        [HttpPost]
         public ActionResult AddNewCategory(CategoryViewModel categoryView)
         {
             _categoryLogic.AddNewCategory(new Category(categoryView.CategoryName, categoryView.Description));
-            return View();
+            return RedirectToAction("CategoryOverview");
         }
 
-        public ActionResult EditCategory()
+        [HttpGet]
+        public ActionResult EditCategory(int id)
         {
-            return View();
+            Category category = _categoryLogic.GetCategoryById(id);
+            return View("CategoryView", new CategoryViewModel(category));
         }
 
+        [HttpPost]
         public ActionResult EditCategory(CategoryViewModel categoryView)
         {
-            _categoryLogic.EditCategory(new Category(categoryView.CategoryName, categoryView.Description));
-            return View();
+            _categoryLogic.EditCategory(new Category(categoryView.CategoryId, categoryView.CategoryName, categoryView.Description));
+            return RedirectToAction("CategoryOverview");
         }
 
-        public ActionResult DeleteCategory(CategoryViewModel categoryView)
+        [HttpGet]
+        public ActionResult DeleteCategory(int id)
         {
-            _categoryLogic.DeleteCategory(new Category(categoryView.CategoryName, categoryView.Description));
-            return View();
+            List<Video> _list = _videoLogic.GetVideosWithCategory(id);
+            foreach(Video video in _list)
+            {
+                _videoLogic.SetVideosToDefaultCategory(video.VideoId);
+            }
+
+            _categoryLogic.DeleteCategory(id);
+            return RedirectToAction("CategoryOverview");
         }
 
         public ActionResult DeleteComment(CommentViewModel commentView)
         {
             _commentLogic.DeleteComment(new Comment(commentView.VideoId, commentView.UserId, commentView.Content, commentView.TimeStamp));
             return View();
-        }
-
-        [HttpPost]
-        public ActionResult CategoryOverview()
-        {
-            CategoryViewModel overview = new CategoryViewModel()
-            {
-                Categories = _categoryLogic.GetAllCategories(),
-            };
-
-            return View("CategoryOverview", overview);
         }
 
         [HttpPost]
@@ -137,8 +152,30 @@ namespace Semester2PersoonlijkProjectStreamLabs.Controllers
             return View();
         }
 
-        [HttpPost]
-        public ActionResult ReportOverView(VideoViewModel video)
+        [HttpGet]
+        public ActionResult ReportOverView()
+        {
+            ReportViewModel overview = new ReportViewModel()
+            {
+                Reports = _reportLogic.GetAllReports()
+            };
+
+            return View("ReportOverview", overview);
+        }
+
+        [HttpGet]
+        public ActionResult VideoOverview()
+        {
+            VideoViewModel overview = new VideoViewModel()
+            {
+                Videos = _videoLogic.GetVideos()
+            };
+
+            return View("VideoOverview", overview);
+        }
+
+        [HttpGet]
+        public ActionResult ReportOverViewVideo(VideoViewModel video)
         {
             ReportViewModel overview = new ReportViewModel()
             {

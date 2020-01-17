@@ -1,16 +1,16 @@
 ﻿@model Semester2PersoonlijkProjectStreamLabs.Models.CategoryViewModel
 
 @{
-    ViewData["Title"] = "CategoryView";
+    ViewData["Title"] = "AddNewCategory";
 }
 
-<h2>CategoryView</h2>
+<h2>AddNewCategory</h2>
 
 <h4>CategoryViewModel</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="EditCategory">
+        <form asp-action="AddNewCategory">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="CategoryName" class="control-label"></label>
@@ -22,9 +22,8 @@
                 <input asp-for="Description" class="form-control" />
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
-            <input type="hidden" asp-for="CategoryId" class="form-control" />
             <div class="form-group">
-                <input type="submit" value="Edit category" class="btn btn-default" />
+                <input type="submit" value="Add new category" class="btn btn-default" />
             </div>
         </form>
     </div>

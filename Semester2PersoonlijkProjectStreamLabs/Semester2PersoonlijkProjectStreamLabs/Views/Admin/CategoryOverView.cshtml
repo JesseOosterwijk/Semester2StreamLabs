@@ -1,37 +1,49 @@
-﻿@model Semester2PersoonlijkProjectStreamLabs.Models.CategoryViewModel
+﻿@using Models;
+@model Semester2PersoonlijkProjectStreamLabs.Models.CategoryViewModel
 
 @{
     ViewData["Title"] = "CategoryOverView";
 }
 
-<h2>CategoryOverView</h2>
+<h2>CategoryOverview</h2>
 
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>
+                Category Name
+            </th>
+            <th>
+                Category Description
+            </th>
+            <th>
+                Edit category
+            </th>
+            <th>
+                Delete category
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (Category item in Model.Categories)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit Category", "EditCategory", new { id = item.CategoryId })
+                </td>
+                <td>
+                    @Html.ActionLink("Delete Category", "DeleteCategory", new { id = item.CategoryId })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
 <div>
-    <h4>CategoryViewModel</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.CategoryId)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.CategoryId)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.CategoryName)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.CategoryName)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-    </dl>
-</div>
-<div>
-    @Html.ActionLink("Edit Category", "EditCategory", Model.CategoryId) |
-    @Html.ActionLink("Delete Category", "DeleteCategory", Model.CategoryId)
-    <a asp-action="Index">Back to List</a>
+    <a asp-area="" asp-controller="Admin" asp-action="AddNewCategory" class="btn btn-primary btn-lg btn-block" style="margin-top: 10px">Add New Category</a>
 </div>

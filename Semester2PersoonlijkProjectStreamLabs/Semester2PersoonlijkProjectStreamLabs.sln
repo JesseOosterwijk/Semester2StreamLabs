@@ -3,32 +3,34 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.645
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Semester2PersoonlijkProjectStreamLabs", "Semester2PersoonlijkProjectStreamLabs\Semester2PersoonlijkProjectStreamLabs.csproj", "{5EECD0EE-C8B4-45D4-BE5C-B14F6B5DFE58}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Semester2PersoonlijkProjectStreamLabs", "Semester2PersoonlijkProjectStreamLabs\Semester2PersoonlijkProjectStreamLabs.csproj", "{5EECD0EE-C8B4-45D4-BE5C-B14F6B5DFE58}"
 	ProjectSection(ProjectDependencies) = postProject
 		{CDAE2732-B55E-496D-839F-7332788863D4} = {CDAE2732-B55E-496D-839F-7332788863D4}
 		{22792E3F-9D41-44D8-88F7-6A5B0F5876F3} = {22792E3F-9D41-44D8-88F7-6A5B0F5876F3}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Data", "Data\Data.csproj", "{23290229-8B41-42BC-8E3F-07153A8304D1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data", "Data\Data.csproj", "{23290229-8B41-42BC-8E3F-07153A8304D1}"
 	ProjectSection(ProjectDependencies) = postProject
 		{22792E3F-9D41-44D8-88F7-6A5B0F5876F3} = {22792E3F-9D41-44D8-88F7-6A5B0F5876F3}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logic", "Logic\Logic.csproj", "{CDAE2732-B55E-496D-839F-7332788863D4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Logic", "Logic\Logic.csproj", "{CDAE2732-B55E-496D-839F-7332788863D4}"
 	ProjectSection(ProjectDependencies) = postProject
 		{23290229-8B41-42BC-8E3F-07153A8304D1} = {23290229-8B41-42BC-8E3F-07153A8304D1}
 		{22792E3F-9D41-44D8-88F7-6A5B0F5876F3} = {22792E3F-9D41-44D8-88F7-6A5B0F5876F3}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models", "Models\Models.csproj", "{22792E3F-9D41-44D8-88F7-6A5B0F5876F3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Models", "Models\Models.csproj", "{22792E3F-9D41-44D8-88F7-6A5B0F5876F3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StreamLabsTests", "StreamLabsTests\StreamLabsTests.csproj", "{B30EA318-AA70-4EF2-BBF8-832AB521F32C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StreamLabsTests", "StreamLabsTests\StreamLabsTests.csproj", "{B30EA318-AA70-4EF2-BBF8-832AB521F32C}"
 	ProjectSection(ProjectDependencies) = postProject
 		{23290229-8B41-42BC-8E3F-07153A8304D1} = {23290229-8B41-42BC-8E3F-07153A8304D1}
 		{CDAE2732-B55E-496D-839F-7332788863D4} = {CDAE2732-B55E-496D-839F-7332788863D4}
 		{22792E3F-9D41-44D8-88F7-6A5B0F5876F3} = {22792E3F-9D41-44D8-88F7-6A5B0F5876F3}
 		{5EECD0EE-C8B4-45D4-BE5C-B14F6B5DFE58} = {5EECD0EE-C8B4-45D4-BE5C-B14F6B5DFE58}
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegrationTests", "IntegrationTests\IntegrationTests.csproj", "{A272E84E-BE82-426D-8EDA-D0F7F12011BF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -56,6 +58,10 @@ Global
 		{B30EA318-AA70-4EF2-BBF8-832AB521F32C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B30EA318-AA70-4EF2-BBF8-832AB521F32C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B30EA318-AA70-4EF2-BBF8-832AB521F32C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A272E84E-BE82-426D-8EDA-D0F7F12011BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A272E84E-BE82-426D-8EDA-D0F7F12011BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A272E84E-BE82-426D-8EDA-D0F7F12011BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A272E84E-BE82-426D-8EDA-D0F7F12011BF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

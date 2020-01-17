@@ -43,6 +43,34 @@ namespace Data.Contexts
             }
         }
 
+        public Category GetCategoryById(int categoryId)
+        {
+            try
+            {
+                _conn.Open();
+                SqlCommand cmd = new SqlCommand("GetCategory", _conn)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
+                cmd.Parameters.AddWithValue("@CategoryId", SqlDbType.Int).Value = categoryId;
+                DataTable dt = new DataTable();
+                dt.Load(cmd.ExecuteReader());
+
+                string name = dt.Rows[0]["Name"].ToString();
+                string description = dt.Rows[0]["Description"].ToString();
+                Category category = new Category(categoryId, name, description);
+                return category;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                _conn.Close();
+            }
+        }
+
         public void AddNewCategory(Category newCategory)
         {
             try
@@ -52,6 +80,7 @@ namespace Data.Contexts
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@Name", SqlDbType.NVarChar).Value = newCategory.Name;
+                    cmd.Parameters.AddWithValue("@Description", SqlDbType.NVarChar).Value = newCategory.Description;
                     cmd.ExecuteNonQuery();
                 }
             }
@@ -73,8 +102,9 @@ namespace Data.Contexts
                 using (SqlCommand cmd = new SqlCommand("EditCategory", _conn))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add("@CategoryName", SqlDbType.NVarChar).Value = category.Name;
+                    cmd.Parameters.Add("@Name", SqlDbType.NVarChar).Value = category.Name;
                     cmd.Parameters.Add("@Description", SqlDbType.NVarChar).Value = category.Description;
+                    cmd.Parameters.Add("@CategoryId", SqlDbType.Int).Value = category.CategoryId;
                     cmd.ExecuteNonQuery();
                 }
             }
@@ -88,7 +118,7 @@ namespace Data.Contexts
             }
         }
 
-        public void DeleteCategory(Category category)
+        public void DeleteCategory(int categoryId)
         {
             try
             {
@@ -96,13 +126,13 @@ namespace Data.Contexts
                 using (SqlCommand cmd = new SqlCommand("DeleteCategory", _conn))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add("@CategoryId", SqlDbType.Int).Value = category.CategoryId;
+                    cmd.Parameters.Add("@CategoryId", SqlDbType.Int).Value = categoryId;
                     cmd.ExecuteNonQuery();
                 }
             }
             catch (Exception)
             {
-                throw new ArgumentException("Category not deleted");
+                throw;
             }
             finally
             {

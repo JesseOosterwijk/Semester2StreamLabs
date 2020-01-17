@@ -31,5 +31,10 @@ namespace Data.Memory
         {
 
         }
+
+        public List<Report> GetAllReports()
+        {
+            return new List<Report>();
+        }
     }
 }

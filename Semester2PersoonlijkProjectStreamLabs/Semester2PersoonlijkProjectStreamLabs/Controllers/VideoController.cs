@@ -98,12 +98,15 @@ namespace Semester2PersoonlijkProjectStreamLabs.Controllers
             return View();
         }
 
-        public ActionResult ReportVideo()
+        [HttpGet]
+        public ActionResult ReportVideo(VideoViewModel video)
         {
-            return View();
+            ReportViewModel model = new ReportViewModel();
+            model.VideoId = video.VideoId;
+            return View("../Viewer/CreateReport", model);
         }
 
-        [HttpGet]
+        [HttpPost]
         public ActionResult ReportVideo(ReportViewModel report)
         {
             int userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.Sid)?.Value);
@@ -139,18 +142,6 @@ namespace Semester2PersoonlijkProjectStreamLabs.Controllers
                 _commentLogic.EditComment(new Comment(commentView.VideoId, commentView.UserId, commentView.Content, commentView.TimeStamp));
             }
             return View("VideoComments");
-        }
-
-        public ActionResult GetCommentsVideo(VideoViewModel video)
-        {
-            CommentViewModel comments = new CommentViewModel();
-            foreach (Comment comment in _commentLogic.GetAllCommentsOnVideo(video.VideoId))
-            {
-                CommentViewModel viewModel = new CommentViewModel(comment);
-                comments.Comments.Add(viewModel);
-            }
-
-            return View("VideoComments", comments);
         }
 
         [HttpGet]

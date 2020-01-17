@@ -12,5 +12,7 @@ namespace Data.Interfaces
         List<Video> SearchForVideos(string searchTerm);
         Video GetVideoById(int videoId);
         List<Video> GetVideosUser(int userId);
+        void SetVideosToDefaultCategory(int categoryId);
+        List<Video> GetVideosWithCategory(int categoryId);
     }
 }

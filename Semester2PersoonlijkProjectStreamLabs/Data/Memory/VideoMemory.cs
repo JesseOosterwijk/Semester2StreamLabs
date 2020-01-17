@@ -59,5 +59,15 @@ namespace Data.Memory
         {
             return new List<Video>();
         }
+
+        public void SetVideosToDefaultCategory(int categoryId)
+        {
+
+        }
+
+        public List<Video> GetVideosWithCategory(int categoryId)
+        {
+            return new List<Video>();
+        }
     }
 }

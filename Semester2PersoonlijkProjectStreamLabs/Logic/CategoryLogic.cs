@@ -28,9 +28,14 @@ namespace Logic
             _category.EditCategory(category);
         }
 
-        public void DeleteCategory(Category category)
+        public void DeleteCategory(int categoryId)
         {
-            _category.DeleteCategory(category);
+            _category.DeleteCategory(categoryId);
+        }
+
+        public Category GetCategoryById(int categoryId)
+        {
+            return _category.GetCategoryById(categoryId);
         }
     }
 }

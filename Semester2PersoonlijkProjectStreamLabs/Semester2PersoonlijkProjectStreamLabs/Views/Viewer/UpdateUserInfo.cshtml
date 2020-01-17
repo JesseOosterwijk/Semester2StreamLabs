@@ -1,0 +1,100 @@
+﻿@model Semester2PersoonlijkProjectStreamLabs.Models.UserViewModel
+
+@{
+    ViewData["Title"] = "UpdateUserInfo";
+}
+
+<h2>UpdateUserInfo</h2>
+
+<h4>UserViewModel</h4>
+<hr />
+<div class="row">
+    <aside class="col-sm-6 col-md-3 card  my-4">
+        <h3>Settings pagina's</h3>
+        <hr />
+        <ul>
+            <li>
+                <a href="/User/SettingsMenu" class="active">
+                    <span class="fa fa-gear"></span>
+                    Gebruikers info
+                </a>
+            </li>
+            <li>
+                <a href="/Viewer/UpdateUserInfo">
+                    <span class="fa fa-wrench"></span>
+                    Gebruiker aanpassen
+                </a>
+            </li>
+            <li>
+                <a href="/User/DisableUser" class="active">
+                    <span class="fa fa-gear"></span>
+                    Disable account
+                </a>
+            </li>
+        </ul>
+    </aside>
+    <div class="col-md-4">
+        <form asp-action="EditAccount" asp-controller="User" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="UserName" class="control-label"></label>
+                <input asp-for="UserName" class="form-control" />
+                <span asp-validation-for="UserName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FirstName" class="control-label"></label>
+                <input asp-for="FirstName" class="form-control" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LastName" class="control-label"></label>
+                <input asp-for="LastName" class="form-control" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Address" class="control-label"></label>
+                <input asp-for="Address" class="form-control" />
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="City" class="control-label"></label>
+                <input asp-for="City" class="form-control" />
+                <span asp-validation-for="City" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PostalCode" class="control-label"></label>
+                <input asp-for="PostalCode" class="form-control" />
+                <span asp-validation-for="PostalCode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EmailAddress" class="control-label"></label>
+                <input asp-for="EmailAddress" class="form-control" />
+                <span asp-validation-for="EmailAddress" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BirthDate" class="control-label"></label>
+                <input asp-for="BirthDate" class="form-control" />
+                <span asp-validation-for="BirthDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserGender" class="control-label">Gender:</label>
+                <select asp-for="UserGender" class="form-control">
+                    <option value="">--Choose a gender--</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">I'd rather not say</option>
+                </select>
+                <span asp-validation-for="UserGender" class="text-danger"></span>
+            </div>
+            <br />
+            <div class="form-group">
+                <input type="submit" value="Edit account" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

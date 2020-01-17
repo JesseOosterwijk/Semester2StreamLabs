@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Security.Claims;
 using Logic;
 using Microsoft.AspNetCore.Authentication;
@@ -169,6 +170,7 @@ namespace Semester2PersoonlijkProjectStreamLabs.Controllers
         [HttpPost]
         public ActionResult EditAccount(UserViewModel userViewModel, string password)
         {
+            var userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid).Value);
             if (!_userLogic.CheckIfUserAlreadyExists(userViewModel.EmailAddress))
             {
                 if (_userLogic.CheckIfEmailIsValid(userViewModel.EmailAddress))
@@ -178,17 +180,17 @@ namespace Semester2PersoonlijkProjectStreamLabs.Controllers
                         switch (userViewModel.UserAccountType)
                         {
                             case global::Models.User.AccountType.Viewer:
-                                _userLogic.EditUser(new Viewer(global::Models.User.AccountType.Viewer, userViewModel.UserName, userViewModel.FirstName, userViewModel.LastName,
+                                _userLogic.EditUser(new Viewer(userId, global::Models.User.AccountType.Viewer, userViewModel.UserName, userViewModel.FirstName, userViewModel.LastName,
                                         Convert.ToDateTime(userViewModel.BirthDate), (User.Gender)Enum.Parse(typeof(User.Gender), userViewModel.UserGender), userViewModel.EmailAddress, userViewModel.Address, userViewModel.City,
                                         userViewModel.PostalCode, password, true));
                                 break;
                             case global::Models.User.AccountType.Admin:
-                                _userLogic.EditUser(new Viewer(global::Models.User.AccountType.Viewer, userViewModel.UserName, userViewModel.FirstName, userViewModel.LastName,
+                                _userLogic.EditUser(new Viewer(userId, global::Models.User.AccountType.Viewer, userViewModel.UserName, userViewModel.FirstName, userViewModel.LastName,
                                         Convert.ToDateTime(userViewModel.BirthDate), (User.Gender)Enum.Parse(typeof(User.Gender), userViewModel.UserGender), userViewModel.EmailAddress, userViewModel.Address, userViewModel.City,
                                         userViewModel.PostalCode, password, true));
                                 break;
                             default:
-                                _userLogic.EditUser(new Viewer(global::Models.User.AccountType.Viewer, userViewModel.UserName, userViewModel.FirstName, userViewModel.LastName,
+                                _userLogic.EditUser(new Viewer(userId, global::Models.User.AccountType.Viewer, userViewModel.UserName, userViewModel.FirstName, userViewModel.LastName,
                                         Convert.ToDateTime(userViewModel.BirthDate), (User.Gender)Enum.Parse(typeof(User.Gender), userViewModel.UserGender), userViewModel.EmailAddress, userViewModel.Address, userViewModel.City,
                                         userViewModel.PostalCode, password, true));
                                 break;
@@ -197,7 +199,7 @@ namespace Semester2PersoonlijkProjectStreamLabs.Controllers
                     catch (Exception)
                     {
                         ViewBag.Message = "De gegevens zijn onjuist ingevoerd.";
-                        return RedirectToAction("EditAccount");
+                        return RedirectToAction("SettingsMenu");
                     }
                 }
                 else
@@ -212,13 +214,24 @@ namespace Semester2PersoonlijkProjectStreamLabs.Controllers
                 return View();
             }
 
-            return RedirectToAction("AccountOverview");
+            return RedirectToAction("SettingsMenu");
         }
 
         public ActionResult DeleteAccount(UserViewModel user)
         {
             _accountLogic.DeleteUser(user.UserId);
             return View();
+        }
+
+        public IActionResult SettingsMenu()
+        {
+            var userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid).Value);
+            var accountType = (User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value);
+            UserViewModel model = new UserViewModel(_userLogic.GetUserById(userId))
+            {
+                Type = accountType.ToString()               
+            };
+            return View("../Viewer/SettingsMenu", model);
         }
 
     }

@@ -27,5 +27,10 @@ namespace Logic
         {
             _report.DeleteReportVideo(report);
         }
+
+        public List<Report> GetAllReports()
+        {
+            return _report.GetAllReports();
+        }
     }
 }
