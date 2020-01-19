@@ -13,15 +13,18 @@ namespace Data.Contexts
 {
     public class UserContextSQL : IUserContext
     {
-
-        private readonly SqlConnection _conn = Connection.GetConnection();
+        private readonly Connection _connection;
+        public UserContextSQL(Connection connection)
+        {
+            _connection = connection;
+        }
 
         public void CreateUser(User newUser)
         {
             try
             {
-                _conn.Open();
-                using (SqlCommand cmd = new SqlCommand("CreateUser", _conn))
+                _connection.conn.Open();
+                using (SqlCommand cmd = new SqlCommand("CreateUser", _connection.conn))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@UserName", SqlDbType.NVarChar).Value = newUser.UserName;
@@ -45,7 +48,7 @@ namespace Data.Contexts
             }
             finally
             {
-                _conn.Close();
+                _connection.conn.Close();
             }
         }
 
@@ -53,8 +56,8 @@ namespace Data.Contexts
         {
             try
             {
-                _conn.Open();
-                using (SqlCommand cmd = new SqlCommand("EditUser", _conn))
+                _connection.conn.Open();
+                using (SqlCommand cmd = new SqlCommand("EditUser", _connection.conn))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.Add("@UserName", SqlDbType.NVarChar).Value = user.UserName;
@@ -76,7 +79,7 @@ namespace Data.Contexts
             }
             finally
             {
-                _conn.Close();
+                _connection.conn.Close();
             }
         }
 
@@ -86,8 +89,8 @@ namespace Data.Contexts
             {
                 List<User> allUsers = new List<User>();
 
-                _conn.Open();
-                SqlCommand cmd = new SqlCommand("GetAllUsers", _conn)
+                _connection.conn.Open();
+                SqlCommand cmd = new SqlCommand("GetAllUsers", _connection.conn)
                 {
                     CommandType = CommandType.StoredProcedure
                 };
@@ -129,7 +132,7 @@ namespace Data.Contexts
             }
             finally
             {
-                _conn.Close();
+                _connection.conn.Close();
             }
         }
 
@@ -143,9 +146,9 @@ namespace Data.Contexts
             try
             {
 
-                _conn.Open();
+                _connection.conn.Open();
 
-                SqlCommand cmd = new SqlCommand("CheckIfUserAlreadyExists", _conn)
+                SqlCommand cmd = new SqlCommand("CheckIfUserAlreadyExists", _connection.conn)
                 {
                     CommandType = CommandType.StoredProcedure
                 };
@@ -164,7 +167,7 @@ namespace Data.Contexts
             }
             finally
             {
-                _conn.Close();
+                _connection.conn.Close();
             }
             return true;
         }
@@ -173,14 +176,14 @@ namespace Data.Contexts
         {
             try
             {
-                _conn.Open();
+                _connection.conn.Open();
 
                 SqlParameter emailParam = new SqlParameter
                 {
                     ParameterName = "@email"
                 };
 
-                SqlCommand cmd = new SqlCommand("CheckIfAccountIsActive", _conn)
+                SqlCommand cmd = new SqlCommand("CheckIfAccountIsActive", _connection.conn)
                 {
                     CommandType = CommandType.StoredProcedure
                 };
@@ -195,7 +198,7 @@ namespace Data.Contexts
                     {
                         if (reader.GetBoolean(0))
                         {
-                            _conn.Close();
+                            _connection.conn.Close();
                             return true;
                         }
                     }
@@ -208,7 +211,7 @@ namespace Data.Contexts
             }
             finally
             {
-                _conn.Close();
+                _connection.conn.Close();
             }
             return false;
         }
@@ -259,13 +262,13 @@ namespace Data.Contexts
                     "FROM [User] " +
                     "WHERE Email = @email";
 
-                _conn.Open();
+                _connection.conn.Open();
                 SqlParameter emailParam = new SqlParameter
                 {
                     ParameterName = "@email"
                 };
 
-                SqlCommand cmd = new SqlCommand(query, _conn);
+                SqlCommand cmd = new SqlCommand(query, _connection.conn);
                 emailParam.Value = email;
                 cmd.Parameters.Add(emailParam);
                 User currentUser = new Viewer(1, User.AccountType.Viewer, "", "", "", DateTime.Now, User.Gender.Male, "", "", "", "", "", false);
@@ -301,7 +304,7 @@ namespace Data.Contexts
             }
             finally
             {
-                _conn.Close();
+                _connection.conn.Close();
             }
         }
 
@@ -313,11 +316,11 @@ namespace Data.Contexts
                     "SELECT AccountType, UserName, FirstName, LastName, Birthdate, Sex, Email, Address, PostalCode, City, Status, Password " +
                     "FROM [User] " +
                     "WHERE [UserID] = @UserId";
-                _conn.Open();
+                _connection.conn.Open();
 
                 SqlDataAdapter cmd = new SqlDataAdapter
                 {
-                    SelectCommand = new SqlCommand(query, _conn)
+                    SelectCommand = new SqlCommand(query, _connection.conn)
                 };
 
                 cmd.SelectCommand.Parameters.Add("@UserId", SqlDbType.Int).Value = userId;
@@ -358,7 +361,7 @@ namespace Data.Contexts
             }
             finally
             {
-                _conn.Close();
+                _connection.conn.Close();
             }
         }
 
@@ -370,11 +373,11 @@ namespace Data.Contexts
                     "SELECT UserID, AccountType, UserName, FirstName, LastName, Birthdate, Sex, Address, PostalCode, City, Status, Password " +
                     "FROM [User] " +
                     "WHERE [Email] = @Email";
-                _conn.Open();
+                _connection.conn.Open();
 
                 SqlDataAdapter cmd = new SqlDataAdapter
                 {
-                    SelectCommand = new SqlCommand(query, _conn)
+                    SelectCommand = new SqlCommand(query, _connection.conn)
                 };
 
                 cmd.SelectCommand.Parameters.Add("@Email", SqlDbType.VarChar).Value = emailAdress;
@@ -419,7 +422,7 @@ namespace Data.Contexts
             }
             finally
             {
-                _conn.Close();
+                _connection.conn.Close();
             }
         }
 

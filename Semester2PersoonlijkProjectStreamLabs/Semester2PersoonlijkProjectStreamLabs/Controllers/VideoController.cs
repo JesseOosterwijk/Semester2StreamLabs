@@ -101,8 +101,10 @@ namespace Semester2PersoonlijkProjectStreamLabs.Controllers
         [HttpGet]
         public ActionResult ReportVideo(VideoViewModel video)
         {
-            ReportViewModel model = new ReportViewModel();
-            model.VideoId = video.VideoId;
+            ReportViewModel model = new ReportViewModel
+            {
+                VideoId = video.VideoId
+            };
             return View("../Viewer/CreateReport", model);
         }
 
@@ -111,7 +113,13 @@ namespace Semester2PersoonlijkProjectStreamLabs.Controllers
         {
             int userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.Sid)?.Value);
             _reportLogic.ReportVideo(new Report(report.VideoId, userId, report.Content));
-            return View();
+            VideoViewModel model = new VideoViewModel(_videoLogic.GetVideoById(report.VideoId));
+            return RedirectToAction("VideoDetails", model);
+        }
+
+        public ActionResult VideoDetails(VideoViewModel video)
+        {
+            return View("VideoDetails", video);
         }
 
         public ActionResult DeleteComment(CommentViewModel commentView)

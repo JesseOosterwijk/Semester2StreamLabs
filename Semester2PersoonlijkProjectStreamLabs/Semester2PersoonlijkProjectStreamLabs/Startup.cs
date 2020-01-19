@@ -30,7 +30,6 @@ namespace Semester2PersoonlijkProjectStreamLabs
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
@@ -45,6 +44,7 @@ namespace Semester2PersoonlijkProjectStreamLabs
                 options.AddPolicy("Viewer", p => p.RequireAuthenticatedUser().RequireRole("Viewer"));
             });
 
+            services.AddTransient(_ => new Data.Connection(Configuration.GetConnectionString("DefaultConnection")));
             services.AddScoped<ICategoryContext, CategoryContextSQL>();
             services.AddScoped<ICommentContext, CommentContextSQL>();
             services.AddScoped<IUserContext, UserContextSQL>();
@@ -85,6 +85,7 @@ namespace Semester2PersoonlijkProjectStreamLabs
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
 
             app.UseMvc(routes =>
             {

@@ -9,14 +9,18 @@ namespace Data.Contexts
 {
     public class CommentContextSQL : ICommentContext
     {
-        private readonly SqlConnection _conn = Connection.GetConnection();
+        private readonly Connection _connection;
+        public CommentContextSQL(Connection connection)
+        {
+            _connection = connection;
+        }
 
         public void CommentOnVideo(Comment comment)
         {
             try
             {
-                _conn.Open();
-                using (SqlCommand cmd = new SqlCommand("CommentOnVideo", _conn))
+                _connection.conn.Open();
+                using (SqlCommand cmd = new SqlCommand("CommentOnVideo", _connection.conn))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@VideoId", SqlDbType.Int).Value = comment.VideoId;
@@ -32,7 +36,7 @@ namespace Data.Contexts
             }
             finally
             {
-                _conn.Close();
+                _connection.conn.Close();
             }
         }
 
@@ -40,8 +44,8 @@ namespace Data.Contexts
         {
             try
             {
-                _conn.Open();
-                using (SqlCommand cmd = new SqlCommand("EditComment", _conn))
+                _connection.conn.Open();
+                using (SqlCommand cmd = new SqlCommand("EditComment", _connection.conn))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue(@"CommentId", SqlDbType.Int).Value = comment.CommentId;
@@ -58,7 +62,7 @@ namespace Data.Contexts
             }
             finally
             {
-                _conn.Close();
+                _connection.conn.Close();
             }
         }
 
@@ -66,8 +70,8 @@ namespace Data.Contexts
         {
             try
             {
-                _conn.Open();
-                using (SqlCommand cmd = new SqlCommand("DeleteComment", _conn))
+                _connection.conn.Open();
+                using (SqlCommand cmd = new SqlCommand("DeleteComment", _connection.conn))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@CommentId", SqlDbType.Int).Value = comment.CommentId;
@@ -80,7 +84,7 @@ namespace Data.Contexts
             }
             finally
             {
-                _conn.Close();
+                _connection.conn.Close();
             }
         }
 
@@ -90,8 +94,8 @@ namespace Data.Contexts
             {
                 List<Comment> comments = new List<Comment>();
 
-                _conn.Open();
-                SqlCommand cmd = new SqlCommand("GetAllCommentsVideo", _conn)
+                _connection.conn.Open();
+                SqlCommand cmd = new SqlCommand("GetAllCommentsVideo", _connection.conn)
                 {
                     CommandType = CommandType.StoredProcedure
                 };
@@ -120,7 +124,7 @@ namespace Data.Contexts
             }
             finally
             {
-                _conn.Close();
+                _connection.conn.Close();
             }
         }
 
@@ -130,8 +134,8 @@ namespace Data.Contexts
             {
                 List<Comment> comments = new List<Comment>();
 
-                _conn.Open();
-                SqlCommand cmd = new SqlCommand("GetAllCommentsUser", _conn)
+                _connection.conn.Open();
+                SqlCommand cmd = new SqlCommand("GetAllCommentsUser", _connection.conn)
                 {
                     CommandType = CommandType.StoredProcedure
                 };
@@ -158,7 +162,29 @@ namespace Data.Contexts
             }
             finally
             {
-                _conn.Close();
+                _connection.conn.Close();
+            }
+        }
+
+        public void DeleteAllCommentsOnVideo(int videoId)
+        {
+            try
+            {
+                _connection.conn.Open();
+                SqlCommand cmd = new SqlCommand("DeleteAllCommentsVideo", _connection.conn)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
+                cmd.Parameters.AddWithValue("@VideoId", SqlDbType.Int).Value = videoId;
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                _connection.conn.Close();
             }
         }
 

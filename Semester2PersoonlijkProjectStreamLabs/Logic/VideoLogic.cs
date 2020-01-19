@@ -30,7 +30,7 @@ namespace Logic
 
         public List<Video> GetVideos()
         {
-            return _video.GetVideos();
+            return _video.GetAllVideos();
         }
 
         public List<Video> SearchForVideos(string searchTerm)

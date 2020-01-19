@@ -10,5 +10,6 @@ namespace Data.Interfaces
         void EditComment(Comment comment);
         List<Comment> GetAllCommentsOnVideo(int videoId);
         List<Comment> GetAllCommentsByUser(int userId);
+        void DeleteAllCommentsOnVideo(int videoId);
     }
 }

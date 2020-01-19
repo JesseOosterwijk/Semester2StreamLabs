@@ -10,7 +10,11 @@ namespace Data.Contexts
 {
     public class AccountContext : IAccountContext
     {
-        private readonly SqlConnection _conn = Connection.GetConnection();
+        private readonly Connection _connection;
+        public AccountContext(Connection connection)
+        {
+            _connection = connection;
+        }
 
         static string RandomString(int length)
         {
@@ -39,8 +43,8 @@ namespace Data.Contexts
                 string password = RandomString(10);
                 string passwordHash = Hasher.SecurePasswordHasher.Hash(password);
 
-                _conn.Open();
-                using (SqlCommand cmd = new SqlCommand(query, _conn))
+                _connection.conn.Open();
+                using (SqlCommand cmd = new SqlCommand(query, _connection.conn))
                 {
                     cmd.Parameters.Add("@UserId", SqlDbType.Int).Value = id;
                     cmd.Parameters.Add("@Password", SqlDbType.NVarChar).Value = passwordHash;
@@ -55,7 +59,7 @@ namespace Data.Contexts
             }
             finally
             {
-                _conn.Close();
+                _connection.conn.Close();
             }
         }
 
@@ -64,12 +68,12 @@ namespace Data.Contexts
             try
             {
                 string query = "DELETE FROM [User] WHERE UserId = @UserId";
-                using (SqlCommand com = new SqlCommand(query, _conn))
+                using (SqlCommand com = new SqlCommand(query, _connection.conn))
                 {
-                    _conn.Open();
+                    _connection.conn.Open();
                     com.Parameters.AddWithValue("@UserId", userId);
                     com.ExecuteNonQuery();
-                    _conn.Close();
+                    _connection.conn.Close();
                 }
             }
             catch (Exception)
@@ -78,7 +82,7 @@ namespace Data.Contexts
             }
             finally
             {
-                _conn.Close();
+                _connection.conn.Close();
             }
         }
 
@@ -88,8 +92,8 @@ namespace Data.Contexts
             {
                 string query = "UPDATE [User] SET Status = @Status WHERE UserId = @UserId";
 
-                _conn.Open();
-                using (SqlCommand cmd = new SqlCommand(query, _conn))
+                _connection.conn.Open();
+                using (SqlCommand cmd = new SqlCommand(query, _connection.conn))
                 {
                     cmd.Parameters.Add("@UserId", SqlDbType.Int).Value = id;
                     cmd.Parameters.Add("@Status", SqlDbType.Bit).Value = status;
@@ -103,7 +107,7 @@ namespace Data.Contexts
             }
             finally
             {
-                _conn.Close();
+                _connection.conn.Close();
             }
         }
     }

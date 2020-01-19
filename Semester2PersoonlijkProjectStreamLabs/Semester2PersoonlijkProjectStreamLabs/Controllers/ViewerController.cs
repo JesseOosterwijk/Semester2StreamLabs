@@ -78,6 +78,19 @@ namespace Semester2PersoonlijkProjectStreamLabs.Controllers
             return View("ViewerVideoList", videoViewModels);
         }
 
+        public ActionResult GetOwnVideos()
+        {
+            var userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid).Value);
+            List<Video> videos = _videoLogic.GetVideosUser(userId);
+            List<VideoViewModel> videoViewModels = new List<VideoViewModel>();
+            foreach (Video video in videos)
+            {
+                VideoViewModel videoViewModel = new VideoViewModel(video);
+                videoViewModels.Add(videoViewModel);
+            }
+
+            return View("ViewerVideoList", videoViewModels);
+        }
 
         [HttpGet]
         public ActionResult GetVideo(VideoViewModel video)

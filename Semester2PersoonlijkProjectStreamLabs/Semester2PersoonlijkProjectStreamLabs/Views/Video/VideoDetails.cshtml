@@ -1,0 +1,27 @@
+﻿@model Semester2PersoonlijkProjectStreamLabs.Models.VideoViewModel
+
+@{
+    ViewData["Title"] = "Details Video";
+}
+<h2>Video: @Model.Name</h2>
+<div class="video-testimonial-block">
+    <video style="width:1024px; height:768px;" controls>
+        <source src="@Url.Content(Model.ContentUrl)" type="video/mp4" />
+    </video>
+</div>
+@if (User.Identity.IsAuthenticated)
+{
+    <div class="col-md-12">
+        <div class="control-group">
+            <label class="control-label" for="button1id"></label>
+            <div class="form-group">
+                @Html.ActionLink("Comment", "CommentOnVideo", Model) |
+                @Html.ActionLink("Report video", "ReportVideo", Model, new { onclick = "Are you sure you want to report this video?" }) |
+                @if (User.IsInRole("Admin"))
+                {
+                    @Html.ActionLink("Delete video", "DeleteVideo", Model, new { onclick = "Are you sure you want to delete this video?" })
+                }
+            </div>
+        </div>
+    </div>
+}

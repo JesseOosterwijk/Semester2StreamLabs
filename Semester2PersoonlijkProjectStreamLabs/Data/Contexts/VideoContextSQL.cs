@@ -9,13 +9,17 @@ namespace Data.Contexts
 {
     public class VideoContextSQL : IVideoContext
     {
-        private readonly SqlConnection _conn = Connection.GetConnection();
+        private readonly Connection _connection;
+        public VideoContextSQL(Connection connection)
+        {
+            _connection = connection;
+        }
 
         public void SaveVideo(Video video)
         {
             try
             {
-                using (SqlCommand cmd = new SqlCommand("SaveVideo", _conn))
+                using (SqlCommand cmd = new SqlCommand("SaveVideo", _connection.conn))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@UserId", SqlDbType.Int).Value = video.UserId;
@@ -25,7 +29,7 @@ namespace Data.Contexts
                     cmd.Parameters.AddWithValue("@DateOfUpload", SqlDbType.NVarChar).Value = video.DateOfUpload;
                     cmd.Parameters.AddWithValue("@CategoryID", SqlDbType.Int).Value = video.CategoryId;
 
-                    _conn.Open();
+                    _connection.conn.Open();
                     cmd.ExecuteNonQuery();
                 };
             }
@@ -35,7 +39,7 @@ namespace Data.Contexts
             }
             finally
             {
-                _conn.Close();
+                _connection.conn.Close();
             }
         }
 
@@ -43,13 +47,13 @@ namespace Data.Contexts
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("DeleteVideo", _conn)
+                SqlCommand cmd = new SqlCommand("DeleteVideo", _connection.conn)
                 {
                     CommandType = CommandType.StoredProcedure
                 };
                 cmd.Parameters.Add("VideoId", SqlDbType.Int).Value = video.VideoId;
 
-                _conn.Open();
+                _connection.conn.Open();
                 cmd.ExecuteNonQuery();
             }
             catch (Exception)
@@ -58,7 +62,7 @@ namespace Data.Contexts
             }
             finally
             {
-                _conn.Close();
+                _connection.conn.Close();
             }
         }
 
@@ -74,7 +78,7 @@ namespace Data.Contexts
             }
             finally
             {
-                _conn.Close();
+                _connection.conn.Close();
             }
         }
 
@@ -82,10 +86,10 @@ namespace Data.Contexts
         {
             try
             {
-                _conn.Open();
+                _connection.conn.Open();
                 SqlDataAdapter cmd = new SqlDataAdapter
                 {
-                    SelectCommand = new SqlCommand("GetVideoById", _conn)
+                    SelectCommand = new SqlCommand("GetVideoById", _connection.conn)
                     {
                         CommandType = CommandType.StoredProcedure
                     }
@@ -111,7 +115,7 @@ namespace Data.Contexts
             }
             finally
             {
-                _conn.Close();
+                _connection.conn.Close();
             }
         }
 
@@ -119,11 +123,11 @@ namespace Data.Contexts
         {
             try
             {
-                _conn.Open();
+                _connection.conn.Open();
 
                 List<Video> videoList = new List<Video>();
 
-                SqlCommand cmd = new SqlCommand("GetAllVideosUser", _conn)
+                SqlCommand cmd = new SqlCommand("GetAllVideosUser", _connection.conn)
                 {
                     CommandType = CommandType.StoredProcedure,
                 };
@@ -155,14 +159,14 @@ namespace Data.Contexts
             }
         }
 
-        public List<Video> GetVideos()
+        public List<Video> GetAllVideos()
         {
             try
             {
                 List<Video> videoList = new List<Video>();
 
-                _conn.Open();
-                SqlCommand cmd = new SqlCommand("GetAllVideos", _conn)
+                _connection.conn.Open();
+                SqlCommand cmd = new SqlCommand("GetAllVideos", _connection.conn)
                 {
                     CommandType = CommandType.StoredProcedure
                 };
@@ -173,12 +177,13 @@ namespace Data.Contexts
                 foreach (DataRow dr in dt.Rows)
                 {
                     int videoId = (int)dr["VideoId"];
+                    int userId = (int)dr["UserId"];
                     string videoName = dr["Name"].ToString();
                     Category videoCategory = new Category(0, dr["CatName"].ToString(), null);
                     string description = dr["Description"].ToString();
                     DateTime dateOfUpload = (DateTime)dr["DateOfUpload"];
                     string videoUrl = dr["VideoPath"].ToString();
-                    Video video = new Video(videoId, videoCategory, description, videoName, dateOfUpload, videoUrl);
+                    Video video = new Video(videoId, userId, videoCategory, description, videoName, dateOfUpload, videoUrl);
                     videoList.Add(video);
                 }
                 return videoList;
@@ -190,7 +195,7 @@ namespace Data.Contexts
             }
             finally
             {
-                _conn.Close();
+                _connection.conn.Close();
             }
         }
 
@@ -200,8 +205,8 @@ namespace Data.Contexts
             {
                 List<Video> videos = new List<Video>();
 
-                _conn.Open();
-                SqlCommand cmd = new SqlCommand("SearchVideos", _conn)
+                _connection.conn.Open();
+                SqlCommand cmd = new SqlCommand("SearchVideos", _connection.conn)
                 {
                     CommandType = CommandType.StoredProcedure
                 };
@@ -230,7 +235,7 @@ namespace Data.Contexts
             }
             finally
             {
-                _conn.Close();
+                _connection.conn.Close();
             }
         }
 
@@ -238,8 +243,8 @@ namespace Data.Contexts
         {
             try
             {
-                _conn.Open();
-                using (SqlCommand cmd = new SqlCommand("SetToDefaultCategory", _conn))
+                _connection.conn.Open();
+                using (SqlCommand cmd = new SqlCommand("SetToDefaultCategory", _connection.conn))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@VideoId", SqlDbType.Int).Value = videoId;
@@ -252,7 +257,7 @@ namespace Data.Contexts
             }
             finally
             {
-                _conn.Close();
+                _connection.conn.Close();
             }
         }
 
@@ -262,8 +267,8 @@ namespace Data.Contexts
             {
                 List<Video> videos = new List<Video>();
 
-                _conn.Open();
-                SqlCommand cmd = new SqlCommand("GetVideosWithCategory", _conn)
+                _connection.conn.Open();
+                SqlCommand cmd = new SqlCommand("GetVideosWithCategory", _connection.conn)
                 {
                     CommandType = CommandType.StoredProcedure
                 };
@@ -292,7 +297,7 @@ namespace Data.Contexts
             }
             finally
             {
-                _conn.Close();
+                _connection.conn.Close();
             }
         }
     }

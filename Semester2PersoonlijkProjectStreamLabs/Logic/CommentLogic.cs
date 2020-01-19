@@ -38,5 +38,9 @@ namespace Logic
             return _comment.GetAllCommentsByUser(userId);
         }
 
+        public void DeleteAllCommentsOnVideo(int videoId)
+        {
+            _comment.DeleteAllCommentsOnVideo(videoId);
+        }
     }
 }

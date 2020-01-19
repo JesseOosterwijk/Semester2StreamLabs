@@ -47,5 +47,10 @@ namespace Data.Memory
             }
             return commentList;
         }
+
+        public void DeleteAllCommentsOnVideo(int videoId)
+        {
+
+        }
     }
 }

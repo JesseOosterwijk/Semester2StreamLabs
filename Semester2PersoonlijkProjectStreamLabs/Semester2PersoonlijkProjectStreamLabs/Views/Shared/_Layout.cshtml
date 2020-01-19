@@ -31,26 +31,27 @@
                             @if (User.IsInRole("Viewer"))
                             {
                                 <li><a asp-area="" asp-controller="Video" asp-action="UploadVideo">Upload Video</a></li>
+                                <li><a asp-area="" asp-controller="Viewer" asp-action="GetOwnVideos">Your videos</a></li>
                             }
                             @if (User.IsInRole("Admin"))
                             {
-                                <li><a asp-area="" asp-controller="Viewer" asp-action="UserOverview">Gebruikers</a></li>
-                                <li><a asp-area="" asp-controller="Admin" asp-action="ReportOverview">Reports</a></li>
-                                <li><a asp-area="" asp-controller="Admin" asp-action="VideoOverview">Video's</a></li>
-                                <li><a asp-area="" asp-controller="Admin" asp-action="CategoryOverview">Categories</a></li>
+                                <li><a asp-area="" asp-controller="Viewer" asp-action="UserOverview" id="UserOverview">All users</a></li>
+                                <li><a asp-area="" asp-controller="Admin" asp-action="ReportOverview" id="ReportOverview">All reports</a></li>
+                                <li><a asp-area="" asp-controller="Admin" asp-action="VideoOverview" id="VideoOverview">All videos</a></li>
+                                <li><a asp-area="" asp-controller="Admin" asp-action="CategoryOverview" id="CategoryOverview">All categories</a></li>
                             }
-                            <li><a asp-area="" asp-controller="User" asp-action="SettingsMenu">Settings</a></li>
+                            <li><a asp-area="" asp-controller="User" asp-action="SettingsMenu" id="Settings">Settings</a></li>
                             <li><a asp-area="" asp-controller="User" asp-action="Logout">Logout</a></li>
                         }
                         else
                         {
-                            <li><a asp-area="" asp-controller="User" asp-action="Login">Login</a></li>
+                            <li><a asp-area="" asp-controller="User" asp-action="Login" id="Login">Login</a></li>
                             <li><a asp-area="" asp-controller="User" asp-action="CreateAccount">Register</a></li>
                         }
                     </ul>
                     <form class="form-inline my-2 my-lg-0">
-                        <input name="searchTerm" typeof="search "id="search-input" class="form-control ds-input mr-sm-2" placeholder="input search term here" style="margin-top:10px" aria-label="Search">
-                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit" asp-controller="Video" asp-action="SearchForVideos" style="margin-top: 10px">Search for videos</button>
+                        <input name="searchTerm" typeof="search "id="Searchfield" class="form-control ds-input mr-sm-2" placeholder="input search term here" style="margin-top:10px" aria-label="Search">
+                        <button id="SearchFieldBtn" class="btn btn-outline-success my-2 my-sm-0" type="submit" asp-controller="Video" asp-action="SearchForVideos" style="margin-top: 10px">Search for videos</button>
                     </form>
                 </div>
             </div>

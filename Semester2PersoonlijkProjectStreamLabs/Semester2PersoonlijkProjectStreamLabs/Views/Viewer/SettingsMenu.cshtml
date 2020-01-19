@@ -13,7 +13,7 @@
             <li>
                 <a href="/User/SettingsMenu" class="active">
                     <span class="fa fa-gear"></span>
-                    Gebruikers info
+                    User info
                 </a>
             </li>
             @if (User.IsInRole("Viewer"))
@@ -21,13 +21,19 @@
                 <li>
                     <a href="/Viewer/UpdateUserInfo">
                         <span class="fa fa-wrench"></span>
-                        Gebruiker aanpassen
+                        Edit account
                     </a>
                 </li>
                 <li>
-                    <a href="/Viewer/DisableUser">
+                    <a href="/User/DisableUser">
                         <span class="fa fa-wrench"></span>
                         Disable Account
+                    </a>
+                </li>
+                <li>
+                    <a href="/User/DeleteUser">
+                        <span class="fa fa-wrenh"></span>
+                        Delete Account
                     </a>
                 </li>
             }
@@ -36,10 +42,10 @@
 
     <h3>Uw informatie:</h3>
     <div class="col-sm-8 col-md-6 card  my-5">
-        <div>Voornaam: @Model.FirstName</div>
-        <div>Achternaam: @Model.LastName</div>
+        <div>First name: @Model.FirstName</div>
+        <div>Last name: @Model.LastName</div>
         <div>Email: @Model.EmailAddress</div>
-        <div>Rol: @Model.Type</div>
+        <div>Role: @Model.Type</div>
     </div>
 
 </div>

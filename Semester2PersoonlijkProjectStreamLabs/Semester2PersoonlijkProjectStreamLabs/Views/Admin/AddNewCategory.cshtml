@@ -4,16 +4,15 @@
     ViewData["Title"] = "AddNewCategory";
 }
 
-<h2>AddNewCategory</h2>
+<h2>Add new category</h2>
 
-<h4>CategoryViewModel</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="AddNewCategory">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="CategoryName" class="control-label"></label>
+                <label asp-for="CategoryName" class="control-label">Name</label>
                 <input asp-for="CategoryName" class="form-control" />
                 <span asp-validation-for="CategoryName" class="text-danger"></span>
             </div>
@@ -23,7 +22,7 @@
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Add new category" class="btn btn-default" />
+                <input type="submit" value="Add new category" class="btn btn-default" id="AddCategory" />
             </div>
         </form>
     </div>

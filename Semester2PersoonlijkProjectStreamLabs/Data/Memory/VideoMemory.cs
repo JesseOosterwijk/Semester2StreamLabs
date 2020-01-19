@@ -29,7 +29,7 @@ namespace Data.Memory
             ;
         }
 
-        public List<Video> GetVideos()
+        public List<Video> GetAllVideos()
         {
             return TestVideos;
         }

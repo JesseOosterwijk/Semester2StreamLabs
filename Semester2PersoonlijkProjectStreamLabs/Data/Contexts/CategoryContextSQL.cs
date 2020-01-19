@@ -9,15 +9,22 @@ namespace Data.Contexts
 {
     public class CategoryContextSQL : ICategoryContext
     {
-        private readonly SqlConnection _conn = Connection.GetConnection();
+        private readonly Connection _connection;
+        public CategoryContextSQL(Connection connection)
+        {
+            _connection = connection;
+        }
 
         public List<Category> GetAllCategories()
         {
             List<Category> categoryList = new List<Category>();
             try
             {
-                SqlCommand cmd = new SqlCommand("GetAllCategories", _conn) { CommandType = CommandType.StoredProcedure };
-                _conn.Open();
+                SqlCommand cmd = new SqlCommand("GetAllCategories", _connection.conn)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
+                _connection.conn.Open();
 
                 DataTable dt = new DataTable();
                 dt.Load(cmd.ExecuteReader());
@@ -39,7 +46,7 @@ namespace Data.Contexts
             }
             finally
             {
-                _conn.Close();
+                _connection.conn.Close();
             }
         }
 
@@ -47,8 +54,8 @@ namespace Data.Contexts
         {
             try
             {
-                _conn.Open();
-                SqlCommand cmd = new SqlCommand("GetCategory", _conn)
+                _connection.conn.Open();
+                SqlCommand cmd = new SqlCommand("GetCategory", _connection.conn)
                 {
                     CommandType = CommandType.StoredProcedure
                 };
@@ -67,7 +74,7 @@ namespace Data.Contexts
             }
             finally
             {
-                _conn.Close();
+                _connection.conn.Close();
             }
         }
 
@@ -75,8 +82,8 @@ namespace Data.Contexts
         {
             try
             {
-                _conn.Open();
-                using (SqlCommand cmd = new SqlCommand("AddNewCategory", _conn))
+                _connection.conn.Open();
+                using (SqlCommand cmd = new SqlCommand("AddNewCategory", _connection.conn))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@Name", SqlDbType.NVarChar).Value = newCategory.Name;
@@ -90,7 +97,7 @@ namespace Data.Contexts
             }
             finally
             {
-                _conn.Close();
+                _connection.conn.Close();
             }
         }
 
@@ -98,8 +105,8 @@ namespace Data.Contexts
         {
             try
             {
-                _conn.Open();
-                using (SqlCommand cmd = new SqlCommand("EditCategory", _conn))
+                _connection.conn.Open();
+                using (SqlCommand cmd = new SqlCommand("EditCategory", _connection.conn))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.Add("@Name", SqlDbType.NVarChar).Value = category.Name;
@@ -114,7 +121,7 @@ namespace Data.Contexts
             }
             finally
             {
-                _conn.Close();
+                _connection.conn.Close();
             }
         }
 
@@ -122,8 +129,8 @@ namespace Data.Contexts
         {
             try
             {
-                _conn.Open();
-                using (SqlCommand cmd = new SqlCommand("DeleteCategory", _conn))
+                _connection.conn.Open();
+                using (SqlCommand cmd = new SqlCommand("DeleteCategory", _connection.conn))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.Add("@CategoryId", SqlDbType.Int).Value = categoryId;
@@ -136,7 +143,7 @@ namespace Data.Contexts
             }
             finally
             {
-                _conn.Close();
+                _connection.conn.Close();
             }
         }
     }

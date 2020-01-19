@@ -104,6 +104,15 @@ namespace Semester2PersoonlijkProjectStreamLabs.Controllers
             return View();
         }
 
+        public ActionResult DisableAccount()
+        {
+            int userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid).Value);
+            _accountLogic.UpdateStatus(userId, false);
+            HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
+            return RedirectToAction(nameof(Login));
+        }
+
         [HttpPost]
         public ActionResult CreateAccount(UserViewModel userViewModel, string password, string passwordValidation)
         {
@@ -229,7 +238,7 @@ namespace Semester2PersoonlijkProjectStreamLabs.Controllers
             var accountType = (User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value);
             UserViewModel model = new UserViewModel(_userLogic.GetUserById(userId))
             {
-                Type = accountType.ToString()               
+                Type = accountType.ToString()
             };
             return View("../Viewer/SettingsMenu", model);
         }

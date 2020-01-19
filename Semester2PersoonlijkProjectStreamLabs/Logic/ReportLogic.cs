@@ -23,9 +23,9 @@ namespace Logic
             return _report.GetReportsVideo(video);
         }
 
-        public void DeleteReportVideo(Report report)
+        public void DeleteReportVideo(int reportId)
         {
-            _report.DeleteReportVideo(report);
+            _report.DeleteReportVideo(reportId);
         }
 
         public List<Report> GetAllReports()

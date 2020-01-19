@@ -2,12 +2,13 @@
 
 namespace Data
 {
-    class Connection
+    public class Connection
     {
-        public static SqlConnection GetConnection()
+        internal SqlConnection conn { get; }
+
+        public Connection(string connectionString)
         {
-            return new SqlConnection(
-                @"Data Source=mssql.fhict.local;Initial Catalog=dbi398785;User ID=dbi398785;Password=hodehallofbiman;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+            conn = new SqlConnection(connectionString);
         }
     }
 }

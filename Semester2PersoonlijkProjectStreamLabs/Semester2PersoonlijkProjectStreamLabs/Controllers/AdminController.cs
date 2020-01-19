@@ -33,7 +33,7 @@ namespace Semester2PersoonlijkProjectStreamLabs.Controllers
             return View();
         }
 
-        [Authorize(Policy ="Admin")]
+        [Authorize(Policy = "Admin")]
         [HttpGet]
         public ActionResult UserOverview()
         {
@@ -115,7 +115,7 @@ namespace Semester2PersoonlijkProjectStreamLabs.Controllers
         public ActionResult DeleteCategory(int id)
         {
             List<Video> _list = _videoLogic.GetVideosWithCategory(id);
-            foreach(Video video in _list)
+            foreach (Video video in _list)
             {
                 _videoLogic.SetVideosToDefaultCategory(video.VideoId);
             }
@@ -135,7 +135,7 @@ namespace Semester2PersoonlijkProjectStreamLabs.Controllers
         {
 
             CommentViewModel comments = new CommentViewModel();
-            foreach(Comment comment in _commentLogic.GetAllCommentsByUser(userViewModel.UserId))
+            foreach (Comment comment in _commentLogic.GetAllCommentsByUser(userViewModel.UserId))
             {
                 CommentViewModel viewModel = new CommentViewModel(comment);
                 comments.Comments.Add(viewModel);
@@ -145,11 +145,22 @@ namespace Semester2PersoonlijkProjectStreamLabs.Controllers
         }
 
         [HttpGet]
-        public ActionResult DeleteReportVideo(ReportViewModel report)
+        public ActionResult DeleteReport(int id)
         {
-            _reportLogic.DeleteReportVideo(new Report(report.VideoId, report.UserId, report.Content));
+            _reportLogic.DeleteReportVideo(id);
 
-            return View();
+            ReportViewModel overview = new ReportViewModel()
+            {
+                Reports = _reportLogic.GetAllReports()
+            };
+            return RedirectToAction("ReportOverview", overview);
+        }
+
+        [HttpGet]
+        public ActionResult VideoDetails(int id)
+        {
+            VideoViewModel video = new VideoViewModel(_videoLogic.GetVideoById(id));
+            return View("../Video/VideoDetails", video);
         }
 
         [HttpGet]
@@ -183,6 +194,18 @@ namespace Semester2PersoonlijkProjectStreamLabs.Controllers
             };
 
             return View("CategoryOverview", overview);
+        }
+
+        [HttpGet]
+        public ActionResult DeleteVideo(int id)
+        {
+            _commentLogic.DeleteAllCommentsOnVideo(id);
+            _videoLogic.DeleteVideo(_videoLogic.GetVideoById(id));
+            VideoViewModel overview = new VideoViewModel()
+            {
+                Videos = _videoLogic.GetVideos()
+            };
+            return RedirectToAction("VideoOverview", overview);
         }
     }
 }

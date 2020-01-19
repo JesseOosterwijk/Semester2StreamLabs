@@ -20,7 +20,7 @@
                 User
             </th>
             <th>
-                DeleteVideo
+                Delete Video
             </th>
         </tr>
     </thead>
@@ -38,7 +38,7 @@
                     @Html.DisplayFor(modelItem => item.UserId)
                 </td>
                 <td>
-                    @Html.ActionLink("Delete Video", "DeleteVideo", new { id = item.VideoId })
+                    @Html.ActionLink("Delete Video", "DeleteVideo", new { id = item.VideoId }, new { onclick = "Are you sure you want to delete this video?" } )
                 </td>
             </tr>
         }

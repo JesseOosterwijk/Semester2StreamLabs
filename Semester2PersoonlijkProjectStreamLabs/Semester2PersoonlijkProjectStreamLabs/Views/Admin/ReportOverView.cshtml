@@ -5,7 +5,7 @@
     ViewData["Title"] = "ReportOverview";
 }
 
-<h2>ReportOverView</h2>
+<h2>Overview reports</h2>
 
 <table class="table table-striped">
     <thead>
@@ -38,7 +38,10 @@
                     @Html.DisplayFor(modelItem => item.UserId)
                 </td>
                 <td>
-                    @Html.ActionLink("Delete Report", "DeleteReport", new { id = item.ReportId })
+                    @Html.ActionLink("Delete Report", "DeleteReport", new { id = item.ReportId }, new { onclick = "Are you sure you want to delete this report?" })
+                </td>
+                <td>
+                    @Html.ActionLink("Go to corresponding video", "VideoDetails", new { id = item.VideoId })
                 </td>
             </tr>
         }

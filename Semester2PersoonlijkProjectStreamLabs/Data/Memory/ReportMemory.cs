@@ -27,7 +27,7 @@ namespace Data.Memory
             return resultList;
         }
 
-        public void DeleteReportVideo(Report report)
+        public void DeleteReportVideo(int reportId)
         {
 
         }

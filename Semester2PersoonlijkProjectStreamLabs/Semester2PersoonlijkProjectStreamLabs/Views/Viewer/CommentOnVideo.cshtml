@@ -38,7 +38,6 @@ else
     }
 }
 
-
 <div>
     <a asp-action="Index" asp-controller="Home">Back to home</a>
 </div>
@@ -48,6 +47,6 @@ else
     <form method="post" asp-action="CommentOnVideo">
         <input asp-for="Content" class="form-control" />
         <input type="hidden" asp-for="VideoId" class="form-control" />
-        <input type="submit" value="Verstuur" style="margin-top: 10px" class="btn btn-primary btn-lg btn-block" />
+        <input type="submit" value="Comment" id="CommentBtn" style="margin-top: 10px" class="btn btn-primary btn-lg btn-block" />
     </form>
 }

@@ -23,19 +23,14 @@
                                 <source src="@Url.Content(item.ContentUrl)" type="video/mp4" />
                             </video>
                         </div>
-                        <div>
-
-                        </div>
                         @if (User.Identity.IsAuthenticated)
                         {
                         <div class="col-md-12">
                             <div class="control-group">
                                 <label class="control-label" for="button1id"></label>
                                 <div class="form-group">
-                                    @Html.ActionLink("Comment", "CommentOnVideo", item)
-                                </div>
-                                <div class="form-group">
-                                    @Html.ActionLink("Report video", "ReportVideo", item)
+                                    @Html.ActionLink("Comment", "CommentOnVideo", item) |
+                                    @Html.ActionLink("Report video", "ReportVideo", item, new { onclick = "Are you sure you want to report this video?" })
                                 </div>
                             </div>
                         </div>

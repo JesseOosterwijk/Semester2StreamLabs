@@ -9,14 +9,18 @@ namespace Data.Contexts
 {
     public class ReportContext : IReportContext
     {
-        private readonly SqlConnection _conn = Connection.GetConnection();
+        private readonly Connection _connection;
+        public ReportContext(Connection connection)
+        {
+            _connection = connection;
+        }
 
         public void ReportVideo(Report report)
         {
             try
             {
-                _conn.Open();
-                using (SqlCommand cmd = new SqlCommand("ReportVideo", _conn))
+                _connection.conn.Open();
+                using (SqlCommand cmd = new SqlCommand("ReportVideo", _connection.conn))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@UserId", SqlDbType.Int).Value = report.UserId;
@@ -31,7 +35,7 @@ namespace Data.Contexts
             }
             finally
             {
-                _conn.Close();
+                _connection.conn.Close();
             }
         }
 
@@ -40,9 +44,9 @@ namespace Data.Contexts
             try
             {
                 List<Report> reports = new List<Report>();
-                _conn.Open();
+                _connection.conn.Open();
 
-                SqlCommand cmd = new SqlCommand("GetAllReportsVideo", _conn)
+                SqlCommand cmd = new SqlCommand("GetAllReportsVideo", _connection.conn)
                 {
                     CommandType = CommandType.StoredProcedure
                 };
@@ -68,30 +72,30 @@ namespace Data.Contexts
             }
             finally
             {
-                _conn.Close();
+                _connection.conn.Close();
             }
         }
 
-        public void DeleteReportVideo(Report report)
+        public void DeleteReportVideo(int reportId)
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("DeleteReport", _conn)
+                SqlCommand cmd = new SqlCommand("DeleteReport", _connection.conn)
                 {
                     CommandType = CommandType.StoredProcedure
                 };
-                cmd.Parameters.Add("VideoId", SqlDbType.Int).Value = report.VideoId;
+                cmd.Parameters.Add("ReportId", SqlDbType.Int).Value = reportId;
 
-                _conn.Open();
+                _connection.conn.Open();
                 cmd.ExecuteNonQuery();
             }
             catch (Exception)
             {
-                throw new ArgumentException("Report not deleted");
+                throw;
             }
             finally
             {
-                _conn.Close();
+                _connection.conn.Close();
             }
         }
 
@@ -100,9 +104,9 @@ namespace Data.Contexts
             try
             {
                 List<Report> reports = new List<Report>();
-                _conn.Open();
+                _connection.conn.Open();
 
-                SqlCommand cmd = new SqlCommand("GetAllReports", _conn)
+                SqlCommand cmd = new SqlCommand("GetAllReports", _connection.conn)
                 {
                     CommandType = CommandType.StoredProcedure
                 };
@@ -128,7 +132,7 @@ namespace Data.Contexts
             }
             finally
             {
-                _conn.Close();
+                _connection.conn.Close();
             }
         }
     }
